@@ -1,0 +1,50 @@
+.placeholder {
+    background-color:grey;
+}
+.pile {
+    background-color:blue;
+}
+.base {
+    background-color:darkblue;
+}
+.cell {
+    border: 1px blanchedalmond solid;
+}
+
+.card {
+    /*opacity: 0.85;*/
+
+    transition-property: left, top;
+    transition-duration: 1s, 1s;
+    transition-timing-function: ease-out, ease-out;
+
+    /*background-image:url('../resources/svg/cards/foreground.svg');*/
+    background-size: 100% 100%; 
+    background-repeat:no-repeat;
+    /*display: inline-block;*/
+
+    border: 2px solid darkgray;
+    border-radius: 8px;
+
+    vertical-align: middle;
+    /*padding: 1em;*/
+}
+
+section {
+    border:dotted 1px red;
+}
+.diamonds, .hearts {
+    color:red;
+}
+.spades, .clubs {
+    color:black;
+}
+.playable {
+    border: 2px red solid;
+}
+.selected, .tableau {
+    border: 2px green solid;
+}
+.card.selected {
+    opacity: 0.95;
+}
