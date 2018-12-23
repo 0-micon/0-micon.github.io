@@ -46,7 +46,7 @@ function createFreecellBasis(pileNum, cellNum, baseNum) {
         return (move - (move % DESK_SIZE)) / DESK_SIZE;
     }
 
-    function solve(desk, callback, filter) {
+    function solve(desk, callback, filter, lastCard) {
         let srcMoves = [[]], dstMoves = [], tmp;
         const moves = [], done = {};
 
@@ -58,7 +58,7 @@ function createFreecellBasis(pileNum, cellNum, baseNum) {
                 desk.moveForward(path);
 
                 moves.length = 0;
-                desk.getMoves(moves, filter);
+                desk.getBestMoves(moves, filter);
 
                 for (let j = 0, ml = moves.length; j < ml; j++) {
                     const mov = moves[j];
@@ -73,7 +73,7 @@ function createFreecellBasis(pileNum, cellNum, baseNum) {
                         const next = path.slice();
                         next.push(mov);
 
-                        if (callback(desk, next)) {
+                        if (lastCard === desk.cardAt(dst, -1) && callback(desk, next, dst)) {
                             // Restore the desk and return.
                             desk.moveBackward(next);
                             return;
@@ -142,6 +142,36 @@ function createFreecellBasis(pileNum, cellNum, baseNum) {
             }
         }
 
+        function getEmptyPile() {
+            for (let i = PILE_START; i < PILE_END; i++) {
+                if (desk[i].length === 0) {
+                    return i;
+                }
+            }
+            return -1;
+        }
+
+        function getEmptyCell() {
+            for (let i = CELL_START; i < CELL_END; i++) {
+                if (desk[i].length === 0) {
+                    return i;
+                }
+            }
+            return -1;
+        }
+
+        function getBase(card) {
+            const suit = Cards.suit(card);
+            const rank = Cards.rank(card);
+
+            for (let i = BASE_START; i < BASE_END; i++) {
+                if (i - BASE_START === suit && desk[i].length === rank) {
+                    return i;
+                }
+            }
+            return -1;
+        }
+
         function getMoves(moves, filter) {
             for (let i = 0; i < DESK_SIZE; i++) {
                 const src = desk[i];
@@ -179,6 +209,51 @@ function createFreecellBasis(pileNum, cellNum, baseNum) {
                                     // 4. Can move to an empty cell.
                                     moves.push(toMove(i, j));
                                 }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        function getBestMoves(moves, filter) {
+            const emptyCell = getEmptyCell();
+            const emptyPile = getEmptyPile();
+            
+            for (let i = 0; i < DESK_SIZE; i++) {
+                const src = desk[i];
+                if (src.length > 0) {
+                    const card = src[src.length - 1];
+                    if (filter[card]) {
+                        // To a tableau.
+                        for (let j = PILE_START; j < PILE_END; j++) {
+                            if (j != i) {
+                                const dst = desk[j];
+                                if (dst.length > 0 && isTableau(dst[dst.length - 1], card)) {
+                                    moves.push(toMove(i, j));
+                                }
+                            }
+                        }
+
+                        // To an empty pile.
+                        if (emptyPile >= 0) {
+                            if (!isPile(i) || src.length > 1) {
+                                moves.push(toMove(i, emptyPile));
+                            }
+                        }
+
+                        // To an empty cell.
+                        if (emptyCell >= 0) {
+                            if (!isCell(i)) {
+                                moves.push(toMove(i, emptyCell));
+                            }
+                        }
+
+                        // To the base.
+                        if (!isBase(i)) {
+                            let base = getBase(card);
+                            if (base >= 0) {
+                                moves.push(toMove(i, base));
                             }
                         }
                     }
@@ -298,28 +373,41 @@ function createFreecellBasis(pileNum, cellNum, baseNum) {
             return length;
         }
 
+        function canFormTableau(dstIndex, srcIndex) {
+            const dstLine = desk[dstIndex];
+            const srcLine = desk[srcIndex];
+            return dstLine.length > 0 && srcLine.length > 0 && isTableau(dstLine[dstLine.length - 1], srcLine[srcLine.length - 1]);
+        }
+
         // Desk public interface:
         return {
             // Constants:
             length: desk.length,
 
-            // Methods:
+            // Const methods:
+            getBestMoves: getBestMoves,
+            getBase: getBase,
+            getEmptyCell: getEmptyCell,
+            getEmptyPile: getEmptyPile,
             cardAt: cardAt,
             baseToString: baseToString,
             buildTableauFrom: buildTableauFrom,
             countEqualsBackward: countEqualsBackward,
-            deal: deal,
             forEachLocus: forEachLocus,
-            from: from,
             getMoves: getMoves,
-            moveBackward: moveBackward,
-            moveCard: moveCard,
-            moveForward: moveForward,
             numberOfCardsAt: numberOfCardsAt,
             pileToString: pileToString,
             slice: slice,
             tableauAt: tableauAt,
-            tableauLengthAt: tableauLengthAt
+            tableauLengthAt: tableauLengthAt,
+            canFormTableau: canFormTableau,
+
+            // Desk mutators:
+            from: from,
+            deal: deal,
+            moveBackward: moveBackward,
+            moveCard: moveCard,
+            moveForward: moveForward,
         };
     }
 
