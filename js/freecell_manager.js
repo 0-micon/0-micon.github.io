@@ -139,7 +139,7 @@ function createFreecellManager(pileNum, cellNum, baseNum) {
         
         const tableau = desk.tableauAt(from);
         const result = getPileCardDestination(from);
-        if (tableau.length === 1) {
+        if (tableau.length < 2) {
             return result;
         }
 
