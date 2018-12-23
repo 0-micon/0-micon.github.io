@@ -133,10 +133,11 @@ function EventQueue() {
     const events = {};
 
     this.getEventQueue = function (eventName) {
-        if (!events[eventName]) {
-            events[eventName] = [];
+        let queue = events[eventName];
+        if (!queue) {
+            events[eventName] = queue = [];
         }
-        return events[eventName];
+        return queue;
     };
 }
 
