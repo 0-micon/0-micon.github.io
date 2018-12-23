@@ -67,188 +67,122 @@ function createFreecellManager(pileNum, cellNum, baseNum) {
         queue.notifyAll(event);
     }
 
+    function toResult(destination) {
+        return { count: (destination >= 0 ? 1 : 0), destination: destination };
+    }
+
+    function getTableauDestination(srcIndex) {
+        let destination = -1;
+        let num = 0;
+        for (let i = basis.PILE_START; i < basis.PILE_END; i++) {
+            const cardNum = desk.numberOfCardsAt(i);
+            if (cardNum != 0 && desk.canFormTableau(i, srcIndex)) {
+                if (cardNum > num) {
+                    num = cardNum;
+                    destination = i;
+                }
+            }
+        }
+        return destination;
+    }
+
+    function getCellCardDestination(srcIndex) {
+        let destination = getTableauDestination(srcIndex);
+        if (destination < 0) {
+            destination = desk.getEmptyPile();
+        }
+        return toResult(destination);
+    }
+
+    function getBaseCardDestination(srcIndex) {
+        let destination = getTableauDestination(srcIndex);
+        if (destination < 0) {
+            destination = desk.getEmptyCell();
+        }
+        if (destination < 0) {
+            destination = desk.getEmptyPile();
+        }
+
+        return toResult(destination);
+    }
+
+    function getPileCardDestination(srcIndex) {
+        let destination = getTableauDestination(srcIndex);
+        if (destination < 0) {
+            destination = desk.getEmptyCell();
+        }
+        if (destination < 0) {
+            destination = desk.getEmptyPile();
+        }
+
+        return toResult(destination);
+    }
+
+
     function findBestPath(from) {
-        const result = { count: 0 };
         const lastCard = desk.cardAt(from, -1);
 
         // Handle simple cases first.
         if (!basis.isBase(from)) {
-            const lastCardSuit = Cards.suit(lastCard);
-            const lastCardRank = Cards.rank(lastCard);
-            // Can move to a base or a pile.
-            for (let i = basis.BASE_START; i < basis.BASE_END; i++) {
-                if (i - basis.BASE_START === lastCardSuit && desk.numberOfCardsAt(i) === lastCardRank) {
-                    // Move this card to the foundation.
-                    return { count: 1, destination: i };
-                }
+            const destination = desk.getBase(lastCard);
+            if (destination >= 0) {
+                // Move this card to the foundation.
+                return toResult(destination);
             }
         }
 
         if (basis.isCell(from)) {
-            const lastCardSuit = Cards.suit(lastCard);
-            const lastCardRank = Cards.rank(lastCard);
-            // Can move to a base or a pile.
-            for (let i = basis.BASE_START; i < basis.BASE_END; i++) {
-                if (i - basis.BASE_START === lastCardSuit && desk.numberOfCardsAt(i) === lastCardRank) {
-                    // Move this card to the foundation.
-                    return { count: 1, destination: i };
-                }
-            }
-
-            let num = 0;
-            for (let i = basis.PILE_START; i < basis.PILE_END; i++) {
-                const cardNum = desk.numberOfCardsAt(i);
-                if (cardNum === 0) {
-                    if (result.count === 0) {
-                        result.count = 1;
-                        result.destination = i;
-                    }
-                } else {
-                    if (basis.isTableau(desk.cardAt(i, -1), lastCard)) {
-                        if (cardNum > num) {
-                            num = cardNum;
-                            result.count = 1;
-                            result.destination = i;
-                        }
-                    }
-                }
-            }
-
-            return result;
-        }
-
-        if (basis.isBase(from)) {
-            const lastCardSuit = Cards.suit(lastCard);
-            const lastCardRank = Cards.rank(lastCard);
-            let num = 0;
-            for (let i = basis.PILE_START; i < basis.PILE_END; i++) {
-                const cardNum = desk.numberOfCardsAt(i);
-                if (cardNum === 0) {
-                    if (result.count === 0) {
-                        result.count = 1;
-                        result.destination = i;
-                    }
-                } else {
-                    if (basis.isTableau(desk.cardAt(i, -1), lastCard)) {
-                        if (cardNum > num) {
-                            num = cardNum;
-                            result.count = 1;
-                            result.destination = i;
-                        }
-                    }
-                }
-            }
-
-            if (result.count == 0) {
-                for (let i = basis.CELL_START; i < basis.CELL_END; i++) {
-                    if (desk.numberOfCardsAt(i) === 0) {
-                        result.count = 1;
-                        result.destination = i;
-                        break;
-                    }
-                }
-            }
-
-            return result;
+            return getCellCardDestination(from);
+        } else if (basis.isBase(from)) {
+            return getBaseCardDestination(from);
         }
         
         const tableau = desk.tableauAt(from);
+        const result = getPileCardDestination(from);
         if (tableau.length === 1) {
-            const lastCardSuit = Cards.suit(lastCard);
-            const lastCardRank = Cards.rank(lastCard);
-            for (let i = basis.BASE_START; i < basis.BASE_END; i++) {
-                if (i - basis.BASE_START === lastCardSuit && desk.numberOfCardsAt(i) === lastCardRank) {
-                    // Move this card to the foundation.
-                    return { count: 1, destination: i };
-                }
-            }
-
-            let num = 0;
-            for (let i = basis.PILE_START; i < basis.PILE_END; i++) {
-                if (i === from) {
-                    continue;
-                }
-
-                const cardNum = desk.numberOfCardsAt(i);
-                if (cardNum === 0) {
-                    if (result.count === 0) {
-                        result.count = 1;
-                        result.destination = i;
-                    }
-                } else {
-                    if (basis.isTableau(desk.cardAt(i, -1), lastCard)) {
-                        if (cardNum > num) {
-                            num = cardNum;
-                            result.count = 1;
-                            result.destination = i;
-                        }
-                    }
-                }
-            }
-
-            if (num == 0) {
-                for (let i = basis.CELL_START; i < basis.CELL_END; i++) {
-                    if (desk.numberOfCardsAt(i) === 0) {
-                        result.count = 1;
-                        result.destination = i;
-                        break;
-                    }
-                }
-            }
-
             return result;
         }
-        
+
+        const filter = {};
+        for (let i = 0; i < tableau.length; i++) {
+            filter[tableau[i]] = true;
+        }
 
         const startTime = Date.now();
 
-        function callback(desk, path) {
-            if (Date.now() - startTime > 500) {
-                // It's time to stop the search.
-                console.log('Search timeout!');
-                return true;
-            }
-            for (let i = basis.PILE_START; i < basis.PILE_END; i++) {
-                // 1. Test if the last filtered card has been moved to the destination.
-                if (desk.numberOfCardsAt(i) > 0 && desk.cardAt(i, -1) === lastCard) {
-                    // 2. Count how many cards from the tableau has been moved to the destination.
-                    const count = desk.countEqualsBackward(i, tableau);
-                    if (count === tableau.length) {
-                        result.count = count;
-                        result.path = path;
-                        result.destination = i;
-                        return true;
-                    } else if (count > result.count) {
-                        const delta = tableau.length - count;
-                        // 3. Update result if the rest of the tableau is still intact.
-                        if (desk.numberOfCardsAt(from) >= delta) {
-                            let j = 0;
-                            for (; j < delta && desk.cardAt(from, -j - 1) == tableau[delta - j - 1]; j++);
-                            if (j === delta) {
-                                result.count = count;
-                                result.path = path;
-                                result.destination = i;
-                            }
+        function callback(desk, path, dst) {
+            if (basis.isPile(dst)) {
+                const count = desk.countEqualsBackward(dst, tableau);
+                if (count === tableau.length) {
+                    result.count = count;
+                    result.path = path;
+                    result.destination = dst;
+                    return true;
+                } else if (count > result.count) {
+                    const delta = tableau.length - count;
+                    // Update result if the rest of the tableau is still intact.
+                    if (desk.numberOfCardsAt(from) >= delta) {
+                        let j = 0;
+                        for (; j < delta && desk.cardAt(from, -j - 1) == tableau[delta - j - 1]; j++);
+                        if (j === delta) {
+                            result.count = count;
+                            result.path = path;
+                            result.destination = dst;
                         }
                     }
-
-                    return false;
                 }
             }
+            if (Date.now() - startTime > 500) {
+                // It's time to stop the search.
+                console.log('Oops! Search timeout!');
+                return true;
+            }
+            return false;
         }
 
         back.from(desk);
-        basis.solve(back, callback, function (card) { return tableau.indexOf(card) >= 0; });
+        basis.solve(back, callback, filter, lastCard);
 
-        if (result.count === 0) {
-            for (let i = basis.CELL_START; i < basis.CELL_END; i++) {
-                if (desk.numberOfCardsAt(i) === 0) {
-                    result.count = 1;
-                    result.destination = i;
-                    break;
-                }
-            }
-        }
         return result;
     }
 
@@ -342,30 +276,31 @@ function createFreecellManager(pileNum, cellNum, baseNum) {
         return result;
     }
 
-    return Object.setPrototypeOf({
-        // Desk changing methods:
-        deal: deal,
-        moveCard: moveCard,
+    // Extend our basis and return it:
+    // Desk changing methods:
+    basis.deal = deal;
+    basis.moveCard = moveCard;
 
-        // Listeners:
-        addOnDealListener: addOnDealListener,
-        addOnMoveListener: addOnMoveListener,
-        removeOnDealListener: removeOnDealListener,
-        removeOnMoveListener: removeOnMoveListener,
+    // Listeners:
+    basis.addOnDealListener = addOnDealListener;
+    basis.addOnMoveListener = addOnMoveListener;
+    basis.removeOnDealListener = removeOnDealListener;
+    basis.removeOnMoveListener = removeOnMoveListener;
 
-        // Other methods:
-        findBestPath: findBestPath,
-        solveMove: solveMove,
-        isMoveValid: isMoveValid,
-        forEachMove: forEachMove,
+    // Other constant methods:
+    basis.findBestPath = findBestPath;
+    basis.solveMove = solveMove;
+    basis.isMoveValid = isMoveValid;
+    basis.forEachMove = forEachMove;
 
-        // Some Desk const methods:
-        getMoves: desk.getMoves,
-        forEachLocus: desk.forEachLocus,
-        buildTableauFrom: desk.buildTableauFrom,
-        tableauAt: desk.tableauAt,
-        tableauLengthAt: desk.tableauLengthAt,
-        cardAt: desk.cardAt,
-        numberOfCardsAt: desk.numberOfCardsAt,
-    }, basis);
+    // Some Desk const methods:
+    basis.getMoves = desk.getMoves;
+    basis.forEachLocus = desk.forEachLocus;
+    basis.buildTableauFrom = desk.buildTableauFrom;
+    basis.tableauAt = desk.tableauAt;
+    basis.tableauLengthAt = desk.tableauLengthAt;
+    basis.cardAt = desk.cardAt;
+    basis.numberOfCardsAt = desk.numberOfCardsAt;
+
+    return basis;
 }
