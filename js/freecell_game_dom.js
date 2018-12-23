@@ -329,7 +329,6 @@ const createFreecellGame = (function () {
         if (gui.auto) {
             gui.auto.onclick = function onclick() {
                 game.forEachMove(function (source, destination) {
-                    console.log('Source: ' + source + ' Destination: ' + destination);
                     if (game.isBase(destination)) {
                         // Move one card at a time.
                         game.moveCard(source, destination);
