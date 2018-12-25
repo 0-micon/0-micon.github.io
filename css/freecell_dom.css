@@ -15,9 +15,10 @@
     /*opacity: 0.85;*/
     transition-property: left, top;
 
-    background-image:url('../resources/svg/cards/foreground.svg');
-    background-size: 100% 100%; 
-    background-repeat:no-repeat;
+    background-color: antiquewhite;
+    /*background-image:url('../resources/svg/cards/foreground.svg');*/
+    /*background-size: 100% 100%; */
+    /*background-repeat:no-repeat; */
     /*display: inline-block;*/
 
     border: 2px solid darkgray;
