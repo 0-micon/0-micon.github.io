@@ -71,9 +71,82 @@ const createFreecellGameDOM = (function () {
         return cards;
     }
 
+    function createAutoplay(game, timeout) {
+        let path = [];
+        let pathIndex = -1;
+        let timerID = undefined;
+
+        function ontimer() {
+            timerID = undefined;
+            next();
+        }
+
+        function isValid() {
+            return pathIndex >= 0 && pathIndex < path.length;
+        }
+
+        function play(newPath) {
+            stop();
+
+            path = newPath;
+            pathIndex = 0;
+            next();
+        }
+
+        function stop() {
+            if (timerID) {
+                clearTimeout(timerID);
+                timerID = undefined;
+            }
+            pathIndex = -1;
+        }
+
+        function next() {
+            if (isValid()) {
+                const move = path[pathIndex];
+                const src = game.toSource(move);
+                const dst = game.toDestination(move);
+
+                if (game.isMoveValid(src, dst)) {
+                    game.moveCard(src, dst);
+                } else {
+                    console.log('Ouch! An invalid move has been found!');
+                    stop();
+                }
+            } else {
+                stop();
+            }
+        }
+
+        game.addOnDealListener(function (event) {
+            stop();
+        });
+
+        game.addOnMoveListener(function (event) {
+            if (isValid() &&
+                path[pathIndex++] === game.toMove(event.source, event.destination) &&
+                isValid()) {
+                timerID = setTimeout(ontimer, timeout);
+            } else {
+                stop();
+            }
+        });
+
+        return {
+            play: play,
+            stop: stop,
+            get ended() {
+                return pathIndex < 0 || pathIndex >= path.length;
+            }
+        };
+    }
+
     return function (pileNum, cellNum, baseNum, parent) {
         // Base object
         const game = createFreecellManager(pileNum, cellNum, baseNum);
+
+        // Autoplay object
+        const autoplay = createAutoplay(game, 250);
 
         const UNITS = "em";
         /*
@@ -116,6 +189,7 @@ const createFreecellGameDOM = (function () {
             card.element.onclick = function (event) {
                 event.preventDefault();
                 console.log('Card ' + Cards.playNameOf(index) + ' has been clicked at [' + card.line + ':' + card.index + ']');
+                autoplay.stop();
 
                 if (card.line < 0 || card.index < 0) {
                     return;
@@ -127,10 +201,11 @@ const createFreecellGameDOM = (function () {
                 } else if (result.count > 1) {
                     console.log(result.path);
                     console.log(result.destination);
+                    autoplay.play(result.path);
 
-                    result.path.forEach(function (move) {
-                        game.moveCard(game.toSource(move), game.toDestination(move));
-                    });
+                    //result.path.forEach(function (move) {
+                    //    game.moveCard(game.toSource(move), game.toDestination(move));
+                    //});
                 }
             };
             card.updatePosition = function () {
@@ -146,11 +221,14 @@ const createFreecellGameDOM = (function () {
             };
         });
 
-        game.addOnDealListener(function deal(event) {
+        const classList = new ClassList('transition_deal', 'transition_normal', 'transition_fast');
+
+        game.addOnDealListener(function (event) {
             const deck = event.deck;
             for (let i = 0; i < game.CARD_NUM; i++) {
                 const element = cards[deck[i]].element;
                 element.style.zIndex = i;
+                classList.makeUnique(element, 0);
             }
 
             for (let i = 0; i < game.DESK_SIZE; i++) {
@@ -183,7 +261,8 @@ const createFreecellGameDOM = (function () {
             element.style.zIndex = game.CARD_NUM;
 
             card.updatePosition();
-        })
+            classList.makeUnique(element, autoplay.ended ? 1 : 2);
+        });
 
         return game;
     }
