@@ -176,3 +176,38 @@ EventQueue.prototype.notifyAll = function (event) {
         }
     }
 };
+
+var ClassList = /** @class */ (function () {
+    function ClassList() {
+        var names = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            names[_i] = arguments[_i];
+        }
+        this.classNames = names;
+    }
+    ClassList.prototype.add = function (className) {
+        this.classNames.push(className);
+    };
+    ClassList.prototype.makeUnique = function (element, index) {
+        var classList = element.classList;
+        for (var i = this.classNames.length; i-- > 0;) {
+            if (i !== index) {
+                classList.remove(this.classNames[i]);
+            }
+            else {
+                classList.add(this.classNames[i]);
+            }
+        }
+    };
+    ClassList.prototype.at = function (i) {
+        return this.classNames[i];
+    };
+    Object.defineProperty(ClassList.prototype, "length", {
+        get: function () {
+            return this.classNames.length;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    return ClassList;
+}());
