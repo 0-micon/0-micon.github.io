@@ -165,7 +165,10 @@ const createFreecellGameDOM = (function () {
           BASE_X = CELL_X + game.CELL_NUM * (CX + DX),
           BASE_Y = CELL_Y,
           PILE_X = CELL_X,
-          PILE_Y = CELL_Y + CY + DY;
+          PILE_Y = CELL_Y + CY + DY,
+          TRANSITION_DEAL = 'transition_deal',
+          TRANSITION_NORM = 'transition_norm',
+          TRANSITION_FAST = 'transition_fast';
 
         // Style the parent:
         parent.style.position = "relative";
@@ -181,13 +184,118 @@ const createFreecellGameDOM = (function () {
             positionPile(PILE_X, PILE_Y, CX + DX, 0, UNITS));
 
         // Create cards:
+        function updateCardPosition(transitionClassName) {
+            const i = this.line;
+            if (i >= 0) {
+                const style = this.element.style;
+
+                style.left = placeholders[i].style.left;
+                if (game.isPile(i)) {
+                    style.top = parseFloat(placeholders[i].style.top) + this.index * DY + UNITS;
+                } else {
+                    style.top = placeholders[i].style.top;
+                }
+            }
+
+            if (!this.transitionClassName) {
+                this.element.classList.add(transitionClassName);
+                this.transitionClassName = transitionClassName;
+            } else if (this.transitionClassName != transitionClassName) {
+                this.element.classList.replace(this.transitionClassName, transitionClassName);
+                this.transitionClassName = transitionClassName;
+            }
+        }
+
+        let dragger = null;
         const cards = createCards(parent, game.CARD_NUM, 0, 0, CX, CY, UNITS);
+
+        function getMoveTo(playCardElement, xDestination, yDestination) {
+            let source = -1;
+            let destination = -1;
+
+            game.forEachLocus(function (index, card) {
+                const element = (card >= 0 ? cards[card].element : placeholders[index]);
+                if (element === playCardElement) {
+                    source = index;
+                } else {
+                    const rect = element.getBoundingClientRect();
+                    if (rect.left <= xDestination && xDestination <= rect.right &&
+                        rect.top <= yDestination && yDestination <= rect.bottom) {
+                        console.log('Collision at: ' + index + ' ' + (card >= 0 ? Cards.playNameOf(card) : card));
+                        destination = index;
+                    }
+                }
+            });
+
+            return (source >= 0 && destination >= 0) ? game.toMove(source, destination) : -1;
+        }
+
         cards.forEach(function (card, index) {
+            card.element.onmousedown = function (event) {
+                event.preventDefault();
+                if (dragger) {
+                    return;
+                }
+
+                autoplay.stop();
+
+                let draggable = null;
+                let tableau = game.buildTableauFrom(index);
+                const canPlay = (card.line >= 0 && tableau[tableau.length - 1] === game.cardAt(card.line, -1));
+                if (!canPlay) {
+                    tableau.length = 1;
+                }
+
+                let zIndex = game.CARD_NUM + 1;
+                tableau.forEach(function (cardIndex) {
+                    cards[cardIndex].updatePosition(TRANSITION_FAST);
+                    draggable = new Draggable(cards[cardIndex].element, zIndex++, draggable);
+                });
+                if (draggable) {
+                    dragger = new Dragger(draggable, event.screenX, event.screenY);
+                    dragger.ondrag = function (event) {
+                        if (Math.max(Math.abs(dragger.deltaX), Math.abs(dragger.deltaY)) > 5) {
+                            dragger.dragged = true;
+                        }
+                    };
+                    dragger.ondragend = function (event) {
+                        if (dragger.dragged) {
+                            setTimeout(function () { dragger = null; }, 250);
+
+                            if (canPlay) {
+                                const move = getMoveTo(draggable.element, event.clientX, event.clientY);
+                                if (move > 0) {
+                                    const src = game.toSource(move);
+                                    const dst = game.toDestination(move);
+                                    if (tableau.length < 2) {
+                                        if (game.isMoveValid(src, dst)) {
+                                            game.moveCard(src, dst);
+                                        }
+                                    } else {
+                                        const result = game.getPath(tableau, src, dst);
+                                        if (result.count > 0) {
+                                            console.log(result.path);
+                                            console.log(result.destination);
+                                            autoplay.play(result.path);
+                                        }
+                                    }
+                                }
+                            }
+                        } else {
+                            dragger = null;
+                        }
+                    }
+                }
+            };
             card.element.ondblclick = function (event) {
                 event.preventDefault();
             };
             card.element.onclick = function (event) {
                 event.preventDefault();
+                if (dragger) {
+                    return;
+                }
+
                 console.log('Card ' + Cards.playNameOf(index) + ' has been clicked at [' + card.line + ':' + card.index + ']');
                 autoplay.stop();
 
@@ -202,33 +310,16 @@ const createFreecellGameDOM = (function () {
                     console.log(result.path);
                     console.log(result.destination);
                     autoplay.play(result.path);
-
-                    //result.path.forEach(function (move) {
-                    //    game.moveCard(game.toSource(move), game.toDestination(move));
-                    //});
                 }
             };
-            card.updatePosition = function () {
-                const i = this.line;
-                const style = this.element.style;
-
-                style.left = placeholders[i].style.left;
-                if (game.isPile(i)) {
-                    style.top = parseFloat(placeholders[i].style.top) + this.index * DY + UNITS;
-                } else {
-                    style.top = placeholders[i].style.top;
-                }
-            };
+            card.updatePosition = updateCardPosition;
         });
-
-        const classList = new ClassList('transition_deal', 'transition_normal', 'transition_fast');
 
         game.addOnDealListener(function (event) {
             const deck = event.deck;
             for (let i = 0; i < game.CARD_NUM; i++) {
                 const element = cards[deck[i]].element;
                 element.style.zIndex = i;
-                classList.makeUnique(element, 0);
             }
 
             for (let i = 0; i < game.DESK_SIZE; i++) {
@@ -238,7 +329,7 @@ const createFreecellGameDOM = (function () {
                         const card = cards[game.cardAt(i, j)];
                         card.line = i;
                         card.index = j;
-                        card.updatePosition();
+                        card.updatePosition(TRANSITION_DEAL);
                     }
                 }
             }
@@ -260,8 +351,7 @@ const createFreecellGameDOM = (function () {
             });
             element.style.zIndex = game.CARD_NUM;
 
-            card.updatePosition();
-            classList.makeUnique(element, autoplay.ended ? 1 : 2);
+            card.updatePosition(autoplay.ended ? TRANSITION_NORM : TRANSITION_FAST);
         });
 
         return game;
@@ -364,7 +454,7 @@ const createFreecellGame = (function () {
             }
 
             return '<span class="' + Cards.suitFullNameOf(item.card) + '">' + Cards.playNameOf(item.card) + '</span>'
-                + ': ' + from + '&rarr;' + to;
+                + ': ' + from + '&rarr;' + to + '; free ' + (game.emptyCellCount() + game.emptyPileCount());
         };
 
         history.onclickitem = function (index) {
