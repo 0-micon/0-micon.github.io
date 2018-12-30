@@ -129,8 +129,8 @@ function newHistory() {
     };
 }
 
-function EventQueue() {
-    const events = {};
+function EventQueue(events) {
+    events = events || {};
 
     this.getEventQueue = function (eventName) {
         let queue = events[eventName];
@@ -177,37 +177,76 @@ EventQueue.prototype.notifyAll = function (event) {
     }
 };
 
-var ClassList = /** @class */ (function () {
-    function ClassList() {
-        var names = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            names[_i] = arguments[_i];
-        }
-        this.classNames = names;
+var Draggable = /** @class */ (function () {
+    function Draggable(element, zIndex, parent) {
+        this.element = element;
+        this.element.classList.add('selected');
+        this.parent = parent;
+        this.savedOffsetLeft = element.offsetLeft;
+        this.savedOffsetTop = element.offsetTop;
+        var style = element.style;
+        this.savedTop = style.top || '';
+        this.savedLeft = style.left || '';
+        this.savedZIndex = style.zIndex || '';
+        this.savedTransition = style.transition || '';
+        style.zIndex = zIndex;
+        style.transition = "none";
     }
-    ClassList.prototype.add = function (className) {
-        this.classNames.push(className);
-    };
-    ClassList.prototype.makeUnique = function (element, index) {
-        var classList = element.classList;
-        for (var i = this.classNames.length; i-- > 0;) {
-            if (i !== index) {
-                classList.remove(this.classNames[i]);
-            }
-            else {
-                classList.add(this.classNames[i]);
-            }
+    Draggable.prototype.restore = function () {
+        if (this.parent) {
+            this.parent.restore();
         }
+        this.element.classList.remove('selected');
+        var style = this.element.style;
+        style.top = this.savedTop;
+        style.left = this.savedLeft;
+        style.zIndex = this.savedZIndex;
+        style.transition = this.savedTransition;
     };
-    ClassList.prototype.at = function (i) {
-        return this.classNames[i];
+    Draggable.prototype.offset = function (deltaX, deltaY) {
+        if (this.parent) {
+            this.parent.offset(deltaX, deltaY);
+        }
+        this.element.style.left = this.savedOffsetLeft + deltaX + "px";
+        this.element.style.top = this.savedOffsetTop + deltaY + "px";
     };
-    Object.defineProperty(ClassList.prototype, "length", {
-        get: function () {
-            return this.classNames.length;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    return ClassList;
+    Draggable.prototype.parentElement = function () {
+        return !this.parent ? this.element : this.parent.parentElement();
+    };
+    return Draggable;
+}());
+var Dragger = /** @class */ (function () {
+    function Dragger(draggable, screenX, screenY) {
+        this.draggable = draggable;
+        this.screenX = screenX;
+        this.screenY = screenY;
+        this.deltaX = 0;
+        this.deltaY = 0;
+        var that = this;
+        // Call a function whenever the cursor moves:
+        document.onmousemove = function (event) {
+            event.preventDefault();
+            // Calculate the new cursor position:
+            that.deltaX = event.screenX - screenX;
+            that.deltaY = event.screenY - screenY;
+            if (window.devicePixelRatio) {
+                that.deltaX /= window.devicePixelRatio;
+                that.deltaY /= window.devicePixelRatio;
+            }
+            draggable.offset(that.deltaX, that.deltaY);
+            if (typeof that.ondrag === "function") {
+                that.ondrag(event);
+            }
+        };
+        // Stop moving when mouse button is released:
+        document.onmouseup = function (event) {
+            document.onmousemove = null;
+            document.onmouseup = null;
+            draggable.restore();
+            if (typeof that.ondragend === "function") {
+                that.ondragend(event);
+            }
+        };
+    }
+    return Dragger;
 }());
