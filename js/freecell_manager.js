@@ -118,6 +118,31 @@ function createFreecellManager(pileNum, cellNum, baseNum) {
         return toResult(destination);
     }
 
+    function getPath(tableau, from, to) {
+        const result = { count: 0, destination: -1 };
+
+        const lastCard = desk.cardAt(from, -1);
+        const isDestinationEmpty = (desk.numberOfCardsAt(to) === 0);
+
+        const cardFilter = basis.createCardFilter(tableau);
+        const destinationFilter = basis.createPileFilter(function (index) {
+            return isDestinationEmpty ? desk.numberOfCardsAt(index) == 0 : index == to;
+        });
+
+        back.from(desk);
+        back.solve(lastCard, cardFilter, destinationFilter,
+            function (path, dst) {
+                const count = back.countEqualsBackward(dst, tableau);
+                if (count === tableau.length) {
+                    result.count = count;
+                    result.path = path;
+                    result.destination = dst;
+                    return true;
+                }
+                return false;
+            });
+        return result;
+    }
 
     function findBestPath(from) {
         const lastCard = desk.cardAt(from, -1);
@@ -143,46 +168,39 @@ function createFreecellManager(pileNum, cellNum, baseNum) {
             return result;
         }
 
-        const filter = {};
-        for (let i = 0; i < tableau.length; i++) {
-            filter[tableau[i]] = true;
-        }
+        const cardFilter = basis.createCardFilter(tableau);
+        const destinationFilter = basis.createPileFilter(function (index) { return index != from; });
 
-        const startTime = Date.now();
+        let emptySpaces = 0;
+        back.from(desk);
 
-        function callback(desk, path, dst) {
-            if (basis.isPile(dst)) {
-                const count = desk.countEqualsBackward(dst, tableau);
-                if (count === tableau.length) {
+        function callback(path, dst) {
+            const count = back.countEqualsBackward(dst, tableau);
+            if (count === tableau.length) {
+                const spaces = back.emptyCellCount() + back.emptyPileCount();
+                if (count > result.count || spaces > emptySpaces) {
                     result.count = count;
                     result.path = path;
                     result.destination = dst;
-                    return true;
-                } else if (count > result.count) {
-                    const delta = tableau.length - count;
-                    // Update result if the rest of the tableau is still intact.
-                    if (desk.numberOfCardsAt(from) >= delta) {
-                        let j = 0;
-                        for (; j < delta && desk.cardAt(from, -j - 1) == tableau[delta - j - 1]; j++);
-                        if (j === delta) {
-                            result.count = count;
-                            result.path = path;
-                            result.destination = dst;
-                        }
+                    emptySpaces = spaces;
+                }
+            } else if (count > result.count) {
+                const delta = tableau.length - count;
+                // Update result if the rest of the tableau is still intact.
+                if (back.numberOfCardsAt(from) >= delta) {
+                    let j = 0;
+                    for (; j < delta && back.cardAt(from, -j - 1) == tableau[delta - j - 1]; j++);
+                    if (j === delta) {
+                        result.count = count;
+                        result.path = path;
+                        result.destination = dst;
                     }
                 }
-            }
-            if (Date.now() - startTime > 500) {
-                // It's time to stop the search.
-                console.log('Oops! Search timeout!');
-                return true;
             }
             return false;
         }
 
-        back.from(desk);
-        basis.solve(back, callback, filter, lastCard);
-
+        back.solve(lastCard, cardFilter, destinationFilter, callback);
         return result;
     }
 
@@ -288,6 +306,7 @@ function createFreecellManager(pileNum, cellNum, baseNum) {
     basis.removeOnMoveListener = removeOnMoveListener;
 
     // Other constant methods:
+    basis.getPath = getPath;
     basis.findBestPath = findBestPath;
     basis.solveMove = solveMove;
     basis.isMoveValid = isMoveValid;
@@ -301,6 +320,8 @@ function createFreecellManager(pileNum, cellNum, baseNum) {
     basis.tableauLengthAt = desk.tableauLengthAt;
     basis.cardAt = desk.cardAt;
     basis.numberOfCardsAt = desk.numberOfCardsAt;
+    basis.emptyCellCount = desk.emptyCellCount;
+    basis.emptyPileCount = desk.emptyPileCount;
 
     return basis;
 }
