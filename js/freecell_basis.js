@@ -46,7 +46,7 @@ function createFreecellBasis(pileNum, cellNum, baseNum) {
         return (move - (move % DESK_SIZE)) / DESK_SIZE;
     }
 
-    function solve(desk, callback, filter, lastCard) {
+    function solve(desk, callback, cardFilter, lastCard, destinationFilter) {
         let srcMoves = [[]], dstMoves = [], tmp;
         const moves = [], done = {};
 
@@ -58,7 +58,7 @@ function createFreecellBasis(pileNum, cellNum, baseNum) {
                 desk.moveForward(path);
 
                 moves.length = 0;
-                desk.getBestMoves(moves, filter);
+                desk.getBestMoves(moves, cardFilter);
 
                 for (let j = 0, ml = moves.length; j < ml; j++) {
                     const mov = moves[j];
@@ -73,7 +73,7 @@ function createFreecellBasis(pileNum, cellNum, baseNum) {
                         const next = path.slice();
                         next.push(mov);
 
-                        if (lastCard === desk.cardAt(dst, -1) && callback(desk, next, dst)) {
+                        if (destinationFilter[dst] && lastCard === desk.cardAt(dst, -1) && callback(desk, next, dst)) {
                             // Restore the desk and return.
                             desk.moveBackward(next);
                             return;
@@ -93,6 +93,24 @@ function createFreecellBasis(pileNum, cellNum, baseNum) {
             dstMoves = tmp;
             dstMoves.length = 0;
         }
+    }
+
+    function createCardFilter(cards) {
+        const filter = [];
+        filter.length = CARD_NUM;
+        for (let i = 0; i < cards.length; i++) {
+            filter[cards[i]] = true;
+        }
+        return filter;
+    }
+
+    function createPileFilter(predicate) {
+        const filter = [];
+        filter.length = DESK_SIZE;
+        for (let i = PILE_START; i < PILE_END; i++) {
+            filter[i] = predicate(i);
+        }
+        return filter;
     }
 
     function createDesk() {
@@ -261,6 +279,72 @@ function createFreecellBasis(pileNum, cellNum, baseNum) {
             }
         }
 
+        function toKey() {
+            return baseToString() + ':' + pileToString();
+        }
+
+        function solve(card, cardFilter, destinationFilter, callback) {
+            let srcMoves = [[]], dstMoves = [], tmp;
+            const moves = [], done = {};
+
+            done[toKey()] = true;
+
+            const startTime = Date.now();
+
+            while (srcMoves.length > 0) {
+                for (let i = 0, sl = srcMoves.length; i < sl; i++) {
+
+                    if (Date.now() - startTime > 500) {
+                        // It's time to stop the search.
+                        console.log('Oops! Search timeout!');
+                        return;
+                    }
+
+                    const path = srcMoves[i];
+                    moveForward(path);
+
+                    moves.length = 0;
+                    getBestMoves(moves, cardFilter);
+
+                    for (let j = 0, ml = moves.length; j < ml; j++) {
+                        const mov = moves[j];
+                        const src = toSource(mov);
+                        const dst = toDestination(mov);
+
+                        moveCard(src, dst);
+
+                        // Check if we had it already.
+                        const key = toKey();
+                        if (!done[key]) {
+                            const next = path.slice();
+                            next.push(mov);
+
+                            if (destinationFilter[dst] && card === cardAt(dst, -1) && callback(next, dst)) {
+                                // Restore the desk and return.
+                                moveBackward(next);
+
+                                console.log('Search time: ' + (Date.now() - startTime));
+                                return;
+                            }
+
+                            dstMoves.push(next);
+                            done[key] = true;
+                        }
+
+                        moveCard(dst, src);
+                    }
+                    moveBackward(path);
+                }
+                // Swap source and destination:
+                tmp = srcMoves;
+                srcMoves = dstMoves;
+                dstMoves = tmp;
+                dstMoves.length = 0;
+            }
+
+            console.log('Full search time: ' + (Date.now() - startTime));
+        }
+
         function deal(number) {
             clear();
             const cards = Cards.deck(number);
@@ -379,12 +463,34 @@ function createFreecellBasis(pileNum, cellNum, baseNum) {
             return dstLine.length > 0 && srcLine.length > 0 && isTableau(dstLine[dstLine.length - 1], srcLine[srcLine.length - 1]);
         }
 
+        function emptyCellCount() {
+            let count = 0;
+            for (let i = CELL_START; i < CELL_END; i++) {
+                if (desk[i].length === 0) {
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        function emptyPileCount() {
+            let count = 0;
+            for (let i = PILE_START; i < PILE_END; i++) {
+                if (desk[i].length === 0) {
+                    count++;
+                }
+            }
+            return count;
+        }
+
         // Desk public interface:
         return {
             // Constants:
             length: desk.length,
 
             // Const methods:
+            emptyCellCount: emptyCellCount,
+            emptyPileCount: emptyPileCount,
             getBestMoves: getBestMoves,
             getBase: getBase,
             getEmptyCell: getEmptyCell,
@@ -408,6 +514,9 @@ function createFreecellBasis(pileNum, cellNum, baseNum) {
             moveBackward: moveBackward,
             moveCard: moveCard,
             moveForward: moveForward,
+
+            // Desk solver:
+            solve: solve,
         };
     }
 
@@ -443,6 +552,8 @@ function createFreecellBasis(pileNum, cellNum, baseNum) {
         toDestination: toDestination,
         toSource: toSource,
 
+        createCardFilter: createCardFilter,
+        createPileFilter: createPileFilter,
         createDesk: createDesk
     };
 }
