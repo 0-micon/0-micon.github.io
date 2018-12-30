@@ -33,7 +33,7 @@
     transition-timing-function:cubic-bezier(.6,-0.5,.25,1.5), cubic-bezier(.6,-0.5,.25,1.5);
 }
 
-.transition_normal {
+.transition_norm {
     transition-duration: 1s, 1s;
     transition-timing-function: cubic-bezier(.5,1,.5,1), cubic-bezier(.5,1,.5,1);
 }
