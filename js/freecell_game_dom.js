@@ -537,13 +537,31 @@ const createFreecellGame = (function () {
             }
         }
 
+        SoundManager.init();
+
         // Game listeners:
+        let emptyCount = 0;
         game.addOnDealListener(function (event) {
+            emptyCount = game.emptyPileCount() + game.emptyCellCount();
+            SoundManager.playDeal();
+
             history.clear();
             updateButtons();
         });
 
         game.addOnMoveListener(function (event) {
+            SoundManager.playCard();
+
+            const count = game.emptyPileCount() + game.emptyCellCount();
+            if (count > emptyCount) {
+                SoundManager.playVictory();
+            }
+            emptyCount = count;
+
+            if (game.emptyPileCount() === game.PILE_NUM && game.emptyCellCount() === game.CELL_NUM) {
+                SoundManager.playVictory();
+            }
+
             history.moveCard(event.card, event.source, event.destination);
             updateButtons();
         });
