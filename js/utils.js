@@ -1,3 +1,18 @@
+var MathUtils;
+(function (MathUtils) {
+    /*\
+     * Returns a random number between minValue (inclusive) and maxValue (exclusive)
+    \*/
+    function randomNumber(minValue, maxValue) {
+        return Math.random() * (maxValue - minValue) + minValue;
+    }
+    MathUtils.randomNumber = randomNumber;
+    function randomIneger(minValue, maxValue) {
+        return Math.floor(Math.random() * (maxValue - minValue)) + minValue;
+    }
+    MathUtils.randomIneger = randomIneger;
+})(MathUtils || (MathUtils = {}));
+
 function newSingleElementSelector(selectionClassName) {
     var selectedElement, selectedData, onselectstart, onselectend;
     if (selectionClassName) {
