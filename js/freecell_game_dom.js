@@ -553,7 +553,7 @@ const createFreecellGame = (function () {
             SoundManager.playCard();
 
             const count = game.emptyPileCount() + game.emptyCellCount();
-            if (count > emptyCount) {
+            if (count > emptyCount && count >= game.CELL_NUM) {
                 SoundManager.playVictory();
             }
             emptyCount = count;
