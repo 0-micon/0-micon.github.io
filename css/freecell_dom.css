@@ -16,9 +16,10 @@
     transition-property: left, top;
 
     background-color: antiquewhite;
-    /*background-image:url('../resources/svg/cards/foreground.svg');*/
-    /*background-size: 100% 100%; */
-    /*background-repeat:no-repeat; */
+    background-image: url('/resources/svg/card.svg'), url('/resources/jpg/snow_texture_256x256.jpg');
+    background-repeat: no-repeat, repeat;
+    background-size: 100%, auto;
+    
     /*display: inline-block;*/
 
     border: 2px solid darkgray;
@@ -59,5 +60,5 @@ section {
     border: 2px green solid;
 }
 .card.selected {
-    opacity: 0.95;
+    /*opacity: 0.95;*/
 }
