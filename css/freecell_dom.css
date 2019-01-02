@@ -11,15 +11,19 @@
 
 .placeholder {
     background-color:grey;
+    border-radius: 8px;
+    box-shadow: inset 0px 0px 5px black;
 }
 .pile {
-    background-color:blue;
+    border: 2px solid rgb(148, 148, 148);
+    background-color:rgb(120, 120, 120);    
 }
 .base {
     background-color:darkblue;
+    border: 2px solid rgb(0, 0, 192);
 }
 .cell {
-    border: 1px blanchedalmond solid;
+    border: 2px blanchedalmond solid;
 }
 
 .card {
