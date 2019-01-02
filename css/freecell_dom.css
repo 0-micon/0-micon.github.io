@@ -1,9 +1,9 @@
 #m_game {
     font-family: "Times New Roman", Times, serif;
     font-style: italic;
-    font-weight: bold;
+    /*font-weight: bold;*/
     font-size: 22px;
-    
+
     background-image: url('/resources/jpg/dark_pattern256x256.jpg');
     background-repeat: repeat;
     background-size: auto;
@@ -25,7 +25,7 @@
 .card {
     /*opacity: 0.85;*/
     transition-property: left, top;
-
+    
     background-color: antiquewhite;
     background-image: url('/resources/svg/card.svg'), url('/resources/jpg/snow_texture_256x256.jpg');
     background-repeat: no-repeat, repeat;
@@ -35,6 +35,7 @@
 
     border: 2px solid darkgray;
     border-radius: 8px;
+    box-shadow: 2px 2px 4px black;
 
     vertical-align: middle;
     /*padding: 1em;*/
@@ -60,9 +61,11 @@ section {
 }
 .diamonds, .hearts {
     color:red;
+    /*text-shadow: 1px 1px 2px darkred;*/
 }
 .spades, .clubs {
     color:black;
+    /*text-shadow: 1px 1px 2px darkgrey;*/
 }
 .playable {
     border: 2px red solid;
