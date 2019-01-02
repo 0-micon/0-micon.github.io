@@ -1,6 +1,7 @@
 #m_game {
     font-family: "Times New Roman", Times, serif;
     font-style: italic;
+    font-weight: bold;
     font-size: 22px;
     
     background-image: url('/resources/jpg/dark_pattern256x256.jpg');
