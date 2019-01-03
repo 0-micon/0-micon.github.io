@@ -10,9 +10,10 @@
 }
 
 .placeholder {
-    background-color:grey;
-    border: 2px solid rgb(148, 148, 148);
+    background-color:darkslateblue;
+    border: 2px solid rgb(64, 64, 64);
     border-radius: 8px;
+    opacity: 0.75;
     /*box-shadow: inset 2px 2px 5px 2px black;*/
 }
 .pile {
@@ -20,9 +21,10 @@
 }
 .base {
     background-color:darkblue;
-    border: 2px solid rgb(0, 0, 192);
+    /*border: 2px solid rgb(0, 0, 192);*/
 }
 .cell {
+    background-color:darkred;
     /*border: 2px blanchedalmond solid;*/
 }
 
