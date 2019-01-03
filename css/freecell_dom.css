@@ -13,7 +13,7 @@
     background-color:grey;
     border: 2px solid rgb(148, 148, 148);
     border-radius: 8px;
-    box-shadow: inset 2px 2px 5px 2px black;
+    /*box-shadow: inset 2px 2px 5px 2px black;*/
 }
 .pile {
     background-color:rgb(120, 120, 120);    
@@ -39,7 +39,7 @@
 
     border: 2px solid darkgray;
     border-radius: 8px;
-    box-shadow: 2px 2px 4px black;
+    /*box-shadow: 2px 2px 4px black;*/
 
     vertical-align: middle;
     /*padding: 1em;*/
