@@ -1,8 +1,37 @@
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) {
+    #m_game {
+        font-size: 10px;
+    }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+    #m_game {
+        font-size: 12px;
+    }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+    #m_game {
+        font-size: 16px;
+    }
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+    #m_game {
+        font-size: 22px;
+    }
+}
+
+/* Extra small devices (portrait phones, less than 576px) is the default */
 #m_game {
     font-family: "Times New Roman", Times, serif;
     font-style: italic;
     /*font-weight: bold;*/
-    font-size: 22px;
+    font-size: 8px;
 
     background-image: url('/resources/jpg/dark_pattern256x256.jpg');
     background-repeat: repeat;
