@@ -3,7 +3,7 @@
     font-family: "Times New Roman", Times, serif;
     font-style: italic;
     /*font-weight: bold;*/
-    font-size: 8px;
+    font-size: 10px;
 
     background-image: url('/resources/jpg/dark_pattern256x256.jpg');
     background-repeat: repeat;
@@ -87,21 +87,21 @@ section {
 /* Small devices (landscape phones, 576px and up) */
 @media (min-width: 576px) {
     #m_game {
-        font-size: 10px;
+        font-size: 12px;
     }
 }
 
 /* Medium devices (tablets, 768px and up) */
 @media (min-width: 768px) {
     #m_game {
-        font-size: 12px;
+        font-size: 14px;
     }
 }
 
 /* Large devices (desktops, 992px and up) */
 @media (min-width: 992px) {
     #m_game {
-        font-size: 16px;
+        font-size: 18px;
     }
 }
 
