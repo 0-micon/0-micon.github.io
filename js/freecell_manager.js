@@ -163,6 +163,16 @@ function createFreecellManager(pileNum, cellNum, baseNum) {
         }
         
         const tableau = desk.tableauAt(from);
+
+        // Remove aces from the tableau
+        const threshold = Cards.index(0, 1);
+        for (let i = tableau.length; i-- > 0;) {
+            if (tableau[i] < threshold) {
+                tableau.splice(0, i + 1);
+                break;
+            }
+        }
+
         const result = getPileCardDestination(from);
         if (tableau.length < 2) {
             return result;
