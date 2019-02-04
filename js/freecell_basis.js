@@ -48,9 +48,10 @@ function createFreecellBasis(pileNum, cellNum, baseNum) {
 
     function solve(desk, callback, cardFilter, lastCard, destinationFilter) {
         let srcMoves = [[]], dstMoves = [], tmp;
-        const moves = [], done = {};
+        const moves = [];
+        const done = new Set();
 
-        done[desk.baseToString() + ':' + desk.pileToString()] = true;
+        done.add(desk.baseToString() + ':' + desk.pileToString());
 
         while (srcMoves.length > 0) {
             for (let i = 0, sl = srcMoves.length; i < sl; i++) {
@@ -69,7 +70,7 @@ function createFreecellBasis(pileNum, cellNum, baseNum) {
 
                     // Check if we had it already.
                     const key = desk.baseToString() + ':' + desk.pileToString();
-                    if (!done[key]) {
+                    if (!done.has(key)) {
                         const next = path.slice();
                         next.push(mov);
 
@@ -80,7 +81,7 @@ function createFreecellBasis(pileNum, cellNum, baseNum) {
                         }
 
                         dstMoves.push(next);
-                        done[key] = true;
+                        done.add(key) = true;
                     }
 
                     desk.moveCard(dst, src);
@@ -285,9 +286,10 @@ function createFreecellBasis(pileNum, cellNum, baseNum) {
 
         function solve(card, cardFilter, destinationFilter, callback) {
             let srcMoves = [[]], dstMoves = [], tmp;
-            const moves = [], done = {};
+            const moves = [];
+            const done = new Set();
 
-            done[toKey()] = true;
+            done.add(toKey());
 
             const startTime = Date.now();
 
@@ -315,7 +317,7 @@ function createFreecellBasis(pileNum, cellNum, baseNum) {
 
                         // Check if we had it already.
                         const key = toKey();
-                        if (!done[key]) {
+                        if (!done.has(key)) {
                             const next = path.slice();
                             next.push(mov);
 
@@ -328,7 +330,7 @@ function createFreecellBasis(pileNum, cellNum, baseNum) {
                             }
 
                             dstMoves.push(next);
-                            done[key] = true;
+                            done.add(key);
                         }
 
                         moveCard(dst, src);
