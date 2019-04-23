@@ -4,8 +4,20 @@
     <title></title>
     <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="css/freecell_dom.css" />
+    <link rel="stylesheet" type="text/css" href="css/tea.css" />
 </head>
 <body>
+    <section class="cyp">
+        <div class="row">
+            <textarea id="m_a_message" class="column side"></textarea>
+            <div class="column middle" style="background-color:#bbb;">
+                <input type="password" id="m_key" />
+                <button id="m_a_process">&rarr;</button>
+                <button id="m_b_process">&larr;</button>
+            </div>
+            <textarea id="m_b_message" class="column side"></textarea>
+        </div>
+    </section>
     <section id="m_game">
     </section>
     <button id="m_deal">Deal</button>
@@ -31,6 +43,23 @@
                 redo: m_redo,
                 history: m_history
             });
+    </script>
+    <script src="js/tea.min.js"></script>
+    <script>
+        m_a_process.onclick = function () {
+            const key = m_key.value;
+            if (key) {
+                m_b_message.value = tea.ec(tea.ec(m_a_message.value, key), key.split("").reverse().join(""));
+            }
+
+        };
+
+        m_b_process.onclick = function () {
+            const key = m_key.value;
+            if (key) {
+                m_a_message.value = tea.dc(tea.dc(m_b_message.value, key.split("").reverse().join("")), key);
+            }
+        };
     </script>
 </body>
 </html>
