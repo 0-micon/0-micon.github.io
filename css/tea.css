@@ -20,11 +20,17 @@
   vertical-align: middle;
 }
 
-.column.middle > * {
+.column.middle > *, section > * {
   width: 95%;
   margin-left: 2.5%;
   margin-right: 2.5%;
   margin-bottom: 0.5em;
+}
+
+.column.middle > section {
+  border: 1px solid darkgray;
+  padding-top: 6px;
+  border-radius: 5px;
 }
 
 /* Clear floats after the columns */
@@ -43,5 +49,13 @@
 }
 
 section.cyp {
+  display: none;
+}
+
+section.pag {
+  display: none;
+}
+
+section.tea {
   display: none;
 }
