@@ -54,18 +54,35 @@
     </script>
     <script src="js/tea.min.js"></script>
     <script>
+        function chunks(str, len) {
+            const arr = [];
+            for (let i = 0, j = str.length; i < j; i += len) {
+                arr.push(str.substring(i, i + len));
+            }
+            return arr;
+        }
+        
         m_a_process.onclick = function () {
             const key = m_key.value;
             if (key) {
-                m_b_message.value = tea.ec(tea.ec(m_a_message.value, key), key.split("").reverse().join(""));
+                const value = m_a_message.value;
+                if (value) {
+                    m_b_message.value = chunks(
+                        tea.ec(tea.ec(value, key), key.split("").reverse().join("")),
+                        80).join('\n');
+                }
             }
-
         };
 
         m_b_process.onclick = function () {
             const key = m_key.value;
             if (key) {
-                m_a_message.value = tea.dc(tea.dc(m_b_message.value, key.split("").reverse().join("")), key);
+                let value = m_b_message.value;
+                if (value) {
+                    value = value.replace('\r', '');
+                    value = value.replace('\n', '');
+                    m_a_message.value = tea.dc(tea.dc(value, key.split("").reverse().join("")), key);
+                }
             }
         };
     </script>
