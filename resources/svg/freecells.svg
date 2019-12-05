@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <svg width="640" height="480" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
   <defs>
     <g id="grid10x10">
@@ -106,9 +107,63 @@
     <!-- Suits -->
     <g id="suits">
       <path id="suitD" d="M -10,0 L 0,-14 L 10,0 L 0,14 L -10,0 z " />
-      <path id="suitC" d="M -2,-2.86 C -4.4,-4.0 -5.6,-10.4 0,-10.4 C 5.6,-10.4 4.4,-4.0 2,-2.8 C 3.6,-4.0 8.8,-5.6 8.8,0 C 8.8,5.6 1.6,5.2 1.2,0.8 L 0.4,0.8 C 0.4,0.8 0.8,5.2 2,7.2 L -2,7.2 C -0.8,5.2 -0.4,0.8 -0.4,0.8 L -1.2,0.0 C -1.6,5.2 -9.2,5.6 -9.2,0 C -9.2,-4.8 -3.6,-4.0 -2,-2.8 z " />
-      <path id="suitH" d="M 0,-5 C 0,-7 -2.5,-10 -5,-10 C -7.5,-10 -10,-8 -10,-4.6 C -10,1 -2,10 0,12.4 C 2,10 10,1 10,-4.6 C 10,-8 7.5,-10 5,-10 C 2.5,-10 0,-7 0,-5 z " />
-      <path id="suitS" d="M 0,-12.3 C -4,-6.3 -9.2,-2.8 -9.2,2.2 C -9.2,6.7 -6.7,7.7 -5.2,7.7 C -3.2,7.7 -1.7,6.7 -1.7,3.2 C -1.7,2.2 -0.7,2.2 -0.7,3.2 C -0.7,8.2 -1.7,8.2 -2.7,10.7 L 2.8,10.7 C 1.8,8.2 0.8,8.2 0.8,3.2 C 0.8,2.2 1.8,2.2 1.8,3.2 C 1.8,7.2 3.3,7.7 5.3,7.7 C 6.8,7.7 9.8,6.7 9.8,2.2 C 9.8,-2.9 4,-6.3 0,-12.3 z " />
+      <path id="suitC"
+        d="M -2,-2.86 C -4.4,-4.0 -5.6,-10.4 0,-10.4 C 5.6,-10.4 4.4,-4.0 2,-2.8 C 3.6,-4.0 8.8,-5.6 8.8,0 C 8.8,5.6 1.6,5.2 1.2,0.8 L 0.4,0.8 C 0.4,0.8 0.8,5.2 2,7.2 L -2,7.2 C -0.8,5.2 -0.4,0.8 -0.4,0.8 L -1.2,0.9 C -1.6,5.2 -9.2,5.6 -9.2,0 C -9.2,-4.8 -3.6,-4.0 -2,-2.8 z " />
+      <path id="suitH"
+        d="M 0,-5 C 0,-7 -2.5,-10 -5,-10 C -7.5,-10 -10,-8 -10,-4.6 C -10,1 -2,10 0,12.4 C 2,10 10,1 10,-4.6 C 10,-8 7.5,-10 5,-10 C 2.5,-10 0,-7 0,-5 z " />
+      <path id="suitS"
+        d="M 0,-12.3 C -4,-6.3 -9.2,-2.8 -9.2,2.2 C -9.2,6.7 -6.7,7.7 -5.2,7.7 C -3.2,7.7 -1.7,6.7 -1.7,3.2 C -1.7,2.2 -0.7,2.2 -0.7,3.2 C -0.7,8.2 -1.7,8.2 -2.7,10.7 L 2.8,10.7 C 1.8,8.2 0.8,8.2 0.8,3.2 C 0.8,2.2 1.8,2.2 1.8,3.2 C 1.8,7.2 3.3,7.7 5.3,7.7 C 6.8,7.7 9.8,6.7 9.8,2.2 C 9.8,-2.9 4,-6.3 0,-12.3 z " />
+    </g>
+
+    <g id="cards">
+      <g id="background">
+        <radialGradient id="bgGradient">
+          <stop offset="0%" stop-color="#ffffee" />
+          <stop offset="99%" stop-color="#f0f0d0" />
+        </radialGradient>
+        <rect id="bgRect" x="1" y="1" width="58" height="78" rx="5" fill="url(#bgGradient)" stroke-width="1"
+          stroke="#bbaa77" />
+      </g>
+      <g id="cardAC" class="card ace club">
+        <use href="#bgRect" />
+        <use href="#suitC" transform="translate(30 40) scale(2.5)" />
+
+        <g id="cardACTop">
+          <use href="#rankA" transform="translate(8 10) scale(0.15)" />
+          <use href="#suitC" transform="translate(8 20) scale(0.5)" />
+        </g>
+        <use href="#cardACTop" transform="rotate(180) translate(-60 -80)" />
+      </g>
+      <g id="cardAD" class="card ace diamond">
+        <use href="#bgRect" />
+        <use href="#suitD" transform="translate(30 40) scale(2)" />
+
+        <g id="cardADTop">
+          <use href="#rankA" transform="translate(8 10) scale(0.15)" />
+          <use href="#suitD" transform="translate(8 20) scale(0.4)" />
+        </g>
+        <use href="#cardADTop" transform="rotate(180) translate(-60 -80)" />
+      </g>
+      <g id="cardAH" class="card ace heart">
+        <use href="#bgRect" />
+        <use href="#suitH" transform="translate(30 40) scale(2)" />
+
+        <g id="cardAHTop">
+          <use href="#rankA" transform="translate(8 10) scale(0.15)" />
+          <use href="#suitH" transform="translate(8 20) scale(0.4)" />
+        </g>
+        <use href="#cardAHTop" transform="rotate(180) translate(-60 -80)" />
+      </g>
+      <g id="cardAS" class="card ace spade">
+        <use href="#bgRect" />
+        <use href="#suitS" transform="translate(30 40) scale(2)" />
+
+        <g id="cardASTop">
+          <use href="#rankA" transform="translate(8 10) scale(0.15)" />
+          <use href="#suitS" transform="translate(8 20) scale(0.4)" />
+        </g>
+        <use href="#cardASTop" transform="rotate(180) translate(-60 -80)" />
+      </g>
     </g>
   </defs>
   <g>
@@ -129,10 +184,15 @@
     <use href="#rankJ" x="20%" y="30%" />
     <use href="#rankQ" x="30%" y="30%" />
     <use href="#rankK" x="40%" y="30%" />
-    
+
     <use href="#suitD" x="50%" y="30%" fill="red" stroke="gold" />
     <use href="#suitC" x="60%" y="30%" fill="black" stroke="darkgoldenrod" />
     <use href="#suitH" x="70%" y="30%" fill="red" stroke="gold" />
     <use href="#suitS" x="80%" y="30%" fill="black" stroke="darkgoldenrod" />
+
+    <use href="#cardAC" x="10%" style="transform: scale(2);" y="25%" />
+    <use href="#cardAD" x="20%" style="transform: scale(2);" y="25%" />
+    <use href="#cardAS" x="30%" style="transform: scale(2);" y="25%" />
+    <use href="#cardAH" x="40%" style="transform: scale(2);" y="25%" />
   </g>
 </svg>
