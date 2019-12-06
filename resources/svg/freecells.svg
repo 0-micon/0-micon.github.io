@@ -40,6 +40,11 @@
       stroke-width: 0.5px;
     }
 
+    .center-jack {
+      transform: translate(30px, 40px) scale(0.5);
+      stroke-width: 1px;
+    }
+
     .center-two {
       transform: translate(30px, 20px) scale(0.4);
       stroke-width: 2px;
@@ -692,6 +697,88 @@
         <use href="#cardTHTop" class="bottom"/>
       </g>
 
+      <g id="cardJC" class="card jack club">
+        <use href="#bgRect"/>
+        <use href="#rankJ" class="center-jack"/>
+
+        <g id="cardJCTop">
+          <use href="#rankJ" class="rank"/>
+          <use href="#suitC" class="suit"/>
+        </g>
+        <use href="#cardJCTop" class="bottom"/>
+      </g>
+      <g id="cardJD" class="card jack diamond">
+        <use href="#bgRect"/>
+        <use href="#rankJ" class="center-jack"/>
+
+        <g id="cardJDTop">
+          <use href="#rankJ" class="rank"/>
+          <use href="#suitD" class="suit"/>
+        </g>
+        <use href="#cardJDTop" class="bottom"/>
+      </g>
+      <g id="cardJS" class="card jack spade">
+        <use href="#bgRect"/>
+        <use href="#rankJ" class="center-jack"/>
+
+        <g id="cardJSTop">
+          <use href="#rankJ" class="rank"/>
+          <use href="#suitS" class="suit"/>
+        </g>
+        <use href="#cardJSTop" class="bottom"/>
+      </g>
+
+      <g id="cardJH" class="card jack heart">
+        <use href="#bgRect"/>
+        <use href="#rankJ" class="center-jack"/>
+
+        <g id="cardJHTop">
+          <use href="#rankJ" class="rank"/>
+          <use href="#suitH" class="suit"/>
+        </g>
+        <use href="#cardJHTop" class="bottom"/>
+      </g>
+
+      <g id="cardQC" class="card queen club">
+        <use href="#bgRect"/>
+        <use href="#rankQ" class="center-jack"/>
+
+        <g id="cardQCTop">
+          <use href="#rankQ" class="rank"/>
+          <use href="#suitC" class="suit"/>
+        </g>
+        <use href="#cardQCTop" class="bottom"/>
+      </g>
+      <g id="cardQD" class="card queen diamond">
+        <use href="#bgRect"/>
+        <use href="#rankQ" class="center-jack"/>
+
+        <g id="cardQDTop">
+          <use href="#rankQ" class="rank"/>
+          <use href="#suitD" class="suit"/>
+        </g>
+        <use href="#cardQDTop" class="bottom"/>
+      </g>
+      <g id="cardQS" class="card queen spade">
+        <use href="#bgRect"/>
+        <use href="#rankQ" class="center-jack"/>
+
+        <g id="cardQSTop">
+          <use href="#rankQ" class="rank"/>
+          <use href="#suitS" class="suit"/>
+        </g>
+        <use href="#cardQSTop" class="bottom"/>
+      </g>
+      <g id="cardQH" class="card queen heart">
+        <use href="#bgRect"/>
+        <use href="#rankQ" class="center-jack"/>
+
+        <g id="cardQHTop">
+          <use href="#rankQ" class="rank"/>
+          <use href="#suitH" class="suit"/>
+        </g>
+        <use href="#cardQHTop" class="bottom"/>
+      </g>
     </g>
   </defs>
   <g>
@@ -758,14 +845,24 @@
     <use href="#card8S" transform="translate(600, 600)"/>
     <use href="#card8H" transform="translate(700, 600)"/>
 
-    <use href="#card9C" transform="translate(0, 700) scale(1.667)"/>
-    <use href="#card9D" transform="translate(100, 700) scale(1.667)"/>
-    <use href="#card9S" transform="translate(200, 700) scale(1.667)"/>
-    <use href="#card9H" transform="translate(300, 700) scale(1.667)"/>
+    <use href="#card9C" transform="translate(0, 700)"/>
+    <use href="#card9D" transform="translate(100, 700)"/>
+    <use href="#card9S" transform="translate(200, 700)"/>
+    <use href="#card9H" transform="translate(300, 700)"/>
 
-    <use href="#cardTC" transform="translate(400, 700) scale(1.667)"/>
-    <use href="#cardTD" transform="translate(500, 700) scale(1.667)"/>
-    <use href="#cardTS" transform="translate(600, 700) scale(1.667)"/>
-    <use href="#cardTH" transform="translate(700, 700) scale(1.667)"/>
+    <use href="#cardTC" transform="translate(400, 700)"/>
+    <use href="#cardTD" transform="translate(500, 700)"/>
+    <use href="#cardTS" transform="translate(600, 700)"/>
+    <use href="#cardTH" transform="translate(700, 700)"/>
+
+    <use href="#cardJC" transform="translate(0, 800) scale(1.667)"/>
+    <use href="#cardJD" transform="translate(100, 800) scale(1.667)"/>
+    <use href="#cardJS" transform="translate(200, 800) scale(1.667)"/>
+    <use href="#cardJH" transform="translate(300, 800) scale(1.667)"/>
+
+    <use href="#cardQC" transform="translate(400, 800) scale(1.667)"/>
+    <use href="#cardQD" transform="translate(500, 800) scale(1.667)"/>
+    <use href="#cardQS" transform="translate(600, 800) scale(1.667)"/>
+    <use href="#cardQH" transform="translate(700, 800) scale(1.667)"/>
   </g>
 </svg>
