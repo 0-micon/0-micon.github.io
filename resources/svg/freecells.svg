@@ -41,32 +41,37 @@
     }
 
     .center-two {
-      transform: translate(30px, 20px) scale(0.5);
+      transform: translate(30px, 20px) scale(0.4);
       stroke-width: 2px;
     }
 
     .center-three {
-      transform: translate(30px, 40px) scale(0.5);
+      transform: translate(30px, 40px) scale(0.4);
       stroke-width: 2px;
     }
 
     .center-six-left {
-      transform: translate(21.5px, 40px) scale(0.5);
+      transform: translate(21.5px, 40px) scale(0.4);
       stroke-width: 2px;
     }
 
     .center-six-right {
-      transform: translate(38.5px, 40px) scale(0.5);
+      transform: translate(38.5px, 40px) scale(0.4);
+      stroke-width: 2px;
+    }
+
+    .center-seven {
+      transform: translate(30px, 30px) scale(0.4);
       stroke-width: 2px;
     }
 
     .four-left {
-      transform: translate(21.5px, 20px) scale(0.5);
+      transform: translate(21.5px, 20px) scale(0.4);
       stroke-width: 2px;
     }
 
     .four-right {
-      transform: translate(38.5px, 20px) scale(0.5);
+      transform: translate(38.5px, 20px) scale(0.4);
       stroke-width: 2px;
     }
   </style>
@@ -445,6 +450,118 @@
         </g>
         <use href="#card6HTop" class="bottom"/>
       </g>
+      <g id="card7C" class="card seven club">
+        <use href="#bgRect"/>
+        <use href="#suitC" class="center-six-left"/>
+        <use href="#suitC" class="center-six-right"/>
+        <use href="#suitC" class="center-seven"/>
+
+        <g id="card7CTop">
+          <use href="#suitC" class="four-left"/>
+          <use href="#suitC" class="four-right"/>
+          <use href="#rank7" class="rank"/>
+          <use href="#suitC" class="suit"/>
+        </g>
+        <use href="#card7CTop" class="bottom"/>
+      </g>
+      <g id="card7D" class="card seven diamond">
+        <use href="#bgRect"/>
+        <use href="#suitD" class="center-six-left"/>
+        <use href="#suitD" class="center-six-right"/>
+        <use href="#suitD" class="center-seven"/>
+
+        <g id="card7DTop">
+          <use href="#suitD" class="four-left"/>
+          <use href="#suitD" class="four-right"/>
+          <use href="#rank7" class="rank"/>
+          <use href="#suitD" class="suit"/>
+        </g>
+        <use href="#card7DTop" class="bottom"/>
+      </g>
+      <g id="card7S" class="card seven spade">
+        <use href="#bgRect"/>
+        <use href="#suitS" class="center-six-left"/>
+        <use href="#suitS" class="center-six-right"/>
+        <use href="#suitS" class="center-seven"/>
+
+        <g id="card7STop">
+          <use href="#suitS" class="four-left"/>
+          <use href="#suitS" class="four-right"/>
+          <use href="#rank7" class="rank"/>
+          <use href="#suitS" class="suit"/>
+        </g>
+        <use href="#card7STop" class="bottom"/>
+      </g>
+      <g id="card7H" class="card seven heart">
+        <use href="#bgRect"/>
+        <use href="#suitH" class="center-six-left"/>
+        <use href="#suitH" class="center-six-right"/>
+        <use href="#suitH" class="center-seven"/>
+
+        <g id="card7HTop">
+          <use href="#suitH" class="four-left"/>
+          <use href="#suitH" class="four-right"/>
+          <use href="#rank7" class="rank"/>
+          <use href="#suitH" class="suit"/>
+        </g>
+        <use href="#card7HTop" class="bottom"/>
+      </g>
+      <g id="card8C" class="card eight club">
+        <use href="#bgRect"/>
+        <use href="#suitC" class="center-six-left"/>
+        <use href="#suitC" class="center-six-right"/>
+
+        <g id="card8CTop">
+          <use href="#suitC" class="center-seven"/>
+          <use href="#suitC" class="four-left"/>
+          <use href="#suitC" class="four-right"/>
+          <use href="#rank8" class="rank"/>
+          <use href="#suitC" class="suit"/>
+        </g>
+        <use href="#card8CTop" class="bottom"/>
+      </g>
+      <g id="card8D" class="card eight diamond">
+        <use href="#bgRect"/>
+        <use href="#suitD" class="center-six-left"/>
+        <use href="#suitD" class="center-six-right"/>
+
+        <g id="card8DTop">
+          <use href="#suitD" class="center-seven"/>
+          <use href="#suitD" class="four-left"/>
+          <use href="#suitD" class="four-right"/>
+          <use href="#rank8" class="rank"/>
+          <use href="#suitD" class="suit"/>
+        </g>
+        <use href="#card8DTop" class="bottom"/>
+      </g>
+      <g id="card8S" class="card eight spade">
+        <use href="#bgRect"/>
+        <use href="#suitS" class="center-six-left"/>
+        <use href="#suitS" class="center-six-right"/>
+
+        <g id="card8STop">
+          <use href="#suitS" class="center-seven"/>
+          <use href="#suitS" class="four-left"/>
+          <use href="#suitS" class="four-right"/>
+          <use href="#rank8" class="rank"/>
+          <use href="#suitS" class="suit"/>
+        </g>
+        <use href="#card8STop" class="bottom"/>
+      </g>
+      <g id="card8H" class="card eight heart">
+        <use href="#bgRect"/>
+        <use href="#suitH" class="center-six-left"/>
+        <use href="#suitH" class="center-six-right"/>
+
+        <g id="card8HTop">
+          <use href="#suitH" class="center-seven"/>
+          <use href="#suitH" class="four-left"/>
+          <use href="#suitH" class="four-right"/>
+          <use href="#rank8" class="rank"/>
+          <use href="#suitH" class="suit"/>
+        </g>
+        <use href="#card8HTop" class="bottom"/>
+      </g>
     </g>
   </defs>
   <g>
@@ -471,34 +588,44 @@
     <use href="#suitH" x="70%" y="30%" fill="red" stroke="gold"/>
     <use href="#suitS" x="80%" y="30%" fill="black" stroke="darkgoldenrod"/>
 
-    <use href="#cardAC" transform="translate(0, 400) scale(1.667)"/>
-    <use href="#cardAD" transform="translate(100, 400) scale(1.667)"/>
-    <use href="#cardAS" transform="translate(200, 400) scale(1.667)"/>
-    <use href="#cardAH" transform="translate(300, 400) scale(1.667)"/>
+    <use href="#cardAC" transform="translate(0, 400)"/>
+    <use href="#cardAD" transform="translate(100, 400)"/>
+    <use href="#cardAS" transform="translate(200, 400)"/>
+    <use href="#cardAH" transform="translate(300, 400)"/>
 
-    <use href="#card2C" transform="translate(400, 400) scale(1.667)"/>
-    <use href="#card2D" transform="translate(500, 400) scale(1.667)"/>
-    <use href="#card2S" transform="translate(600, 400) scale(1.667)"/>
-    <use href="#card2H" transform="translate(700, 400) scale(1.667)"/>
+    <use href="#card2C" transform="translate(400, 400)"/>
+    <use href="#card2D" transform="translate(500, 400)"/>
+    <use href="#card2S" transform="translate(600, 400)"/>
+    <use href="#card2H" transform="translate(700, 400)"/>
 
-    <use href="#card3C" transform="translate(0, 600) scale(1.667)"/>
-    <use href="#card3D" transform="translate(100, 600) scale(1.667)"/>
-    <use href="#card3S" transform="translate(200, 600) scale(1.667)"/>
-    <use href="#card3H" transform="translate(300, 600) scale(1.667)"/>
+    <use href="#card3C" transform="translate(0, 500)"/>
+    <use href="#card3D" transform="translate(100, 500)"/>
+    <use href="#card3S" transform="translate(200, 500)"/>
+    <use href="#card3H" transform="translate(300, 500)"/>
 
-    <use href="#card4C" transform="translate(400, 600) scale(1.667)"/>
-    <use href="#card4D" transform="translate(500, 600) scale(1.667)"/>
-    <use href="#card4S" transform="translate(600, 600) scale(1.667)"/>
-    <use href="#card4H" transform="translate(700, 600) scale(1.667)"/>
+    <use href="#card4C" transform="translate(400, 500)"/>
+    <use href="#card4D" transform="translate(500, 500)"/>
+    <use href="#card4S" transform="translate(600, 500)"/>
+    <use href="#card4H" transform="translate(700, 500)"/>
 
-    <use href="#card5C" transform="translate(0, 800) scale(1.667)"/>
-    <use href="#card5D" transform="translate(100, 800) scale(1.667)"/>
-    <use href="#card5S" transform="translate(200, 800) scale(1.667)"/>
-    <use href="#card5H" transform="translate(300, 800) scale(1.667)"/>
+    <use href="#card5C" transform="translate(0, 600) scale(1.667)"/>
+    <use href="#card5D" transform="translate(100, 600) scale(1.667)"/>
+    <use href="#card5S" transform="translate(200, 600) scale(1.667)"/>
+    <use href="#card5H" transform="translate(300, 600) scale(1.667)"/>
 
-    <use href="#card6C" transform="translate(400, 800) scale(1.667)"/>
-    <use href="#card6D" transform="translate(500, 800) scale(1.667)"/>
-    <use href="#card6S" transform="translate(600, 800) scale(1.667)"/>
-    <use href="#card6H" transform="translate(700, 800) scale(1.667)"/>
+    <use href="#card6C" transform="translate(400, 600) scale(1.667)"/>
+    <use href="#card6D" transform="translate(500, 600) scale(1.667)"/>
+    <use href="#card6S" transform="translate(600, 600) scale(1.667)"/>
+    <use href="#card6H" transform="translate(700, 600) scale(1.667)"/>
+
+    <use href="#card7C" transform="translate(0, 800) scale(1.667)"/>
+    <use href="#card7D" transform="translate(100, 800) scale(1.667)"/>
+    <use href="#card7S" transform="translate(200, 800) scale(1.667)"/>
+    <use href="#card7H" transform="translate(300, 800) scale(1.667)"/>
+
+    <use href="#card8C" transform="translate(400, 800) scale(1.667)"/>
+    <use href="#card8D" transform="translate(500, 800) scale(1.667)"/>
+    <use href="#card8S" transform="translate(600, 800) scale(1.667)"/>
+    <use href="#card8H" transform="translate(700, 800) scale(1.667)"/>
   </g>
 </svg>
