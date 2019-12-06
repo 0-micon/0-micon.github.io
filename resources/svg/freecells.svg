@@ -1,5 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="640" height="480" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+  <style>
+    .club {
+      fill: #000000;
+      stroke: #FF8C00;
+    }
+
+    .spade {
+      fill: #000000;
+      stroke: #FF8C00;
+    }
+
+    .diamond {
+      fill: #DC143C;
+      stroke: #B22222;
+    }
+
+    .heart {
+      fill: #DC143C;
+      stroke: #B22222;
+    }
+
+    .rank {
+      transform: translate(8px, 10px) scale(0.15);
+      stroke-width: 4px;
+    }
+
+    .suit {
+      transform: translate(8px, 20px) scale(0.4);
+      stroke-width: 1px;
+    }
+
+    .bottom {
+      transform: rotate(180deg) translate(-60px, -80px);
+    }
+
+    .ace .center {
+      transform: translate(30px, 40px) scale(2);
+      stroke-width: 0.5px;
+    }
+  </style>
   <defs>
     <g id="grid10x10">
       <line x1="10%" y1="0" x2="10%" y2="100%" stroke="currentColor" />
@@ -106,9 +146,11 @@
 
     <!-- Suits -->
     <g id="suits">
-      <path id="suitD" d="M -10,0 L 0,-14 L 10,0 L 0,14 L -10,0 z " />
-      <path id="suitC"
-        d="M -2,-2.86 C -4.4,-4.0 -5.6,-10.4 0,-10.4 C 5.6,-10.4 4.4,-4.0 2,-2.8 C 3.6,-4.0 8.8,-5.6 8.8,0 C 8.8,5.6 1.6,5.2 1.2,0.8 L 0.4,0.8 C 0.4,0.8 0.8,5.2 2,7.2 L -2,7.2 C -0.8,5.2 -0.4,0.8 -0.4,0.8 L -1.2,0.9 C -1.6,5.2 -9.2,5.6 -9.2,0 C -9.2,-4.8 -3.6,-4.0 -2,-2.8 z " />
+      <path id="suitD" d="M -9,0 L 0,-13 L 9,0 L 0,13 L -9,0 z " />
+      <g id="suitC" transform="scale(1.2)">
+        <path
+          d="M -2,-2.86 C -4.4,-4.0 -5.6,-10.4 0,-10.4 C 5.6,-10.4 4.4,-4.0 2,-2.8 C 3.6,-4.0 8.8,-5.6 8.8,0 C 8.8,5.6 1.6,5.2 1.2,0.8 L 0.4,0.8 C 0.4,0.8 0.8,5.2 2,7.2 L -2,7.2 C -0.8,5.2 -0.4,0.8 -0.4,0.8 L -1.2,0.9 C -1.6,5.2 -9.2,5.6 -9.2,0 C -9.2,-4.8 -3.6,-4.0 -2,-2.8 z " />
+      </g>
       <path id="suitH"
         d="M 0,-5 C 0,-7 -2.5,-10 -5,-10 C -7.5,-10 -10,-8 -10,-4.6 C -10,1 -2,10 0,12.4 C 2,10 10,1 10,-4.6 C 10,-8 7.5,-10 5,-10 C 2.5,-10 0,-7 0,-5 z " />
       <path id="suitS"
@@ -126,43 +168,43 @@
       </g>
       <g id="cardAC" class="card ace club">
         <use href="#bgRect" />
-        <use href="#suitC" transform="translate(30 40) scale(2.5)" />
+        <use href="#suitC" class="center" />
 
         <g id="cardACTop">
-          <use href="#rankA" transform="translate(8 10) scale(0.15)" />
-          <use href="#suitC" transform="translate(8 20) scale(0.5)" />
+          <use href="#rankA" class="rank" />
+          <use href="#suitC" class="suit" />
         </g>
-        <use href="#cardACTop" transform="rotate(180) translate(-60 -80)" />
+        <use href="#cardACTop" class="bottom" />
       </g>
       <g id="cardAD" class="card ace diamond">
         <use href="#bgRect" />
-        <use href="#suitD" transform="translate(30 40) scale(2)" />
+        <use href="#suitD" class="center" />
 
         <g id="cardADTop">
-          <use href="#rankA" transform="translate(8 10) scale(0.15)" />
-          <use href="#suitD" transform="translate(8 20) scale(0.4)" />
+          <use href="#rankA" class="rank" />
+          <use href="#suitD" class="suit" />
         </g>
-        <use href="#cardADTop" transform="rotate(180) translate(-60 -80)" />
+        <use href="#cardADTop" class="bottom" />
       </g>
       <g id="cardAH" class="card ace heart">
         <use href="#bgRect" />
-        <use href="#suitH" transform="translate(30 40) scale(2)" />
+        <use href="#suitH" class="center" />
 
         <g id="cardAHTop">
-          <use href="#rankA" transform="translate(8 10) scale(0.15)" />
-          <use href="#suitH" transform="translate(8 20) scale(0.4)" />
+          <use href="#rankA" class="rank" />
+          <use href="#suitH" class="suit" />
         </g>
-        <use href="#cardAHTop" transform="rotate(180) translate(-60 -80)" />
+        <use href="#cardAHTop" class="bottom" />
       </g>
       <g id="cardAS" class="card ace spade">
         <use href="#bgRect" />
-        <use href="#suitS" transform="translate(30 40) scale(2)" />
+        <use href="#suitS" class="center" />
 
         <g id="cardASTop">
-          <use href="#rankA" transform="translate(8 10) scale(0.15)" />
-          <use href="#suitS" transform="translate(8 20) scale(0.4)" />
+          <use href="#rankA" class="rank" />
+          <use href="#suitS" class="suit" />
         </g>
-        <use href="#cardASTop" transform="rotate(180) translate(-60 -80)" />
+        <use href="#cardASTop" class="bottom" />
       </g>
     </g>
   </defs>
