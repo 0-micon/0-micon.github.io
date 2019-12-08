@@ -876,90 +876,92 @@
     <use href="#grid10x10" stroke="grey"/>
     <!-- <use href="#grid10x10" stroke="yellow" stroke-width="3" transform="scale(0.1 0.2)" /> -->
 
+    <g id="freecell-playground">
 
-<!-- cells -->
-    <use href="#bgCell" x="10" y="10"/>
-    <use href="#bgCell" x="90" y="10"/>
-    <use href="#bgCell" x="170" y="10"/>
-    <use href="#bgCell" x="250" y="10"/>
-<!-- bases -->
-    <use href="#bgBaseD" x="330" y="10"/>
-    <use href="#bgBaseH" x="410" y="10"/>
-    <use href="#bgBaseS" x="490" y="10"/>
-    <use href="#bgBaseC" x="570" y="10"/>
-<!-- piles -->
-    <use href="#bgPile" x="10" y="100"/>
-    <use href="#bgPile" x="90" y="100"/>
-    <use href="#bgPile" x="170" y="100"/>
-    <use href="#bgPile" x="250" y="100"/>
-    <use href="#bgPile" x="330" y="100"/>
-    <use href="#bgPile" x="410" y="100"/>
-    <use href="#bgPile" x="490" y="100"/>
-    <use href="#bgPile" x="570" y="100"/>
-<!-- stock -->
-    <use href="#cardAD" transform="translate(10, 500)"/>
-    <use href="#cardAH" transform="translate(10, 550)"/>
-    <use href="#cardAS" transform="translate(10, 600)"/>
-    <use href="#cardAC" transform="translate(10, 650)"/>
+      <!-- cells -->
+      <use href="#bgCell" x="10" y="10"/>
+      <use href="#bgCell" x="90" y="10"/>
+      <use href="#bgCell" x="170" y="10"/>
+      <use href="#bgCell" x="250" y="10"/>
+      <!-- bases -->
+      <use href="#bgBaseD" x="330" y="10"/>
+      <use href="#bgBaseH" x="410" y="10"/>
+      <use href="#bgBaseS" x="490" y="10"/>
+      <use href="#bgBaseC" x="570" y="10"/>
+      <!-- piles -->
+      <use href="#bgPile" x="10" y="100"/>
+      <use href="#bgPile" x="90" y="100"/>
+      <use href="#bgPile" x="170" y="100"/>
+      <use href="#bgPile" x="250" y="100"/>
+      <use href="#bgPile" x="330" y="100"/>
+      <use href="#bgPile" x="410" y="100"/>
+      <use href="#bgPile" x="490" y="100"/>
+      <use href="#bgPile" x="570" y="100"/>
+      <!-- stock -->
+      <use href="#cardAD" transform="translate(10, 500)"/>
+      <use href="#cardAH" transform="translate(10, 550)"/>
+      <use href="#cardAS" transform="translate(10, 600)"/>
+      <use href="#cardAC" transform="translate(10, 650)"/>
 
-    <use href="#card2D" transform="translate(40, 500)"/>
-    <use href="#card2H" transform="translate(40, 550)"/>
-    <use href="#card2S" transform="translate(40, 600)"/>
-    <use href="#card2C" transform="translate(40, 650)"/>
+      <use href="#card2D" transform="translate(40, 500)"/>
+      <use href="#card2H" transform="translate(40, 550)"/>
+      <use href="#card2S" transform="translate(40, 600)"/>
+      <use href="#card2C" transform="translate(40, 650)"/>
 
-    <use href="#card3D" transform="translate(70, 500)"/>
-    <use href="#card3H" transform="translate(70, 550)"/>
-    <use href="#card3S" transform="translate(70, 600)"/>
-    <use href="#card3C" transform="translate(70, 650)"/>
+      <use href="#card3D" transform="translate(70, 500)"/>
+      <use href="#card3H" transform="translate(70, 550)"/>
+      <use href="#card3S" transform="translate(70, 600)"/>
+      <use href="#card3C" transform="translate(70, 650)"/>
 
-    <use href="#card4D" transform="translate(100, 500)"/>
-    <use href="#card4H" transform="translate(100, 550)"/>
-    <use href="#card4S" transform="translate(100, 600)"/>
-    <use href="#card4C" transform="translate(100, 650)"/>
+      <use href="#card4D" transform="translate(100, 500)"/>
+      <use href="#card4H" transform="translate(100, 550)"/>
+      <use href="#card4S" transform="translate(100, 600)"/>
+      <use href="#card4C" transform="translate(100, 650)"/>
 
-    <use href="#card5D" transform="translate(130, 500)"/>
-    <use href="#card5H" transform="translate(130, 550)"/>
-    <use href="#card5S" transform="translate(130, 600)"/>
-    <use href="#card5C" transform="translate(130, 650)"/>
+      <use href="#card5D" transform="translate(130, 500)"/>
+      <use href="#card5H" transform="translate(130, 550)"/>
+      <use href="#card5S" transform="translate(130, 600)"/>
+      <use href="#card5C" transform="translate(130, 650)"/>
 
-    <use href="#card6D" transform="translate(160, 500)"/>
-    <use href="#card6H" transform="translate(160, 550)"/>
-    <use href="#card6S" transform="translate(160, 600)"/>
-    <use href="#card6C" transform="translate(160, 650)"/>
+      <use href="#card6D" transform="translate(160, 500)"/>
+      <use href="#card6H" transform="translate(160, 550)"/>
+      <use href="#card6S" transform="translate(160, 600)"/>
+      <use href="#card6C" transform="translate(160, 650)"/>
 
-    <use href="#card7D" transform="translate(190, 500)"/>
-    <use href="#card7H" transform="translate(190, 550)"/>
-    <use href="#card7S" transform="translate(190, 600)"/>
-    <use href="#card7C" transform="translate(190, 650)"/>
+      <use href="#card7D" transform="translate(190, 500)"/>
+      <use href="#card7H" transform="translate(190, 550)"/>
+      <use href="#card7S" transform="translate(190, 600)"/>
+      <use href="#card7C" transform="translate(190, 650)"/>
 
-    <use href="#card8D" transform="translate(220, 500)"/>
-    <use href="#card8H" transform="translate(220, 550)"/>
-    <use href="#card8S" transform="translate(220, 600)"/>
-    <use href="#card8C" transform="translate(220, 650)"/>
+      <use href="#card8D" transform="translate(220, 500)"/>
+      <use href="#card8H" transform="translate(220, 550)"/>
+      <use href="#card8S" transform="translate(220, 600)"/>
+      <use href="#card8C" transform="translate(220, 650)"/>
 
-    <use href="#card9D" transform="translate(250, 500)"/>
-    <use href="#card9H" transform="translate(250, 550)"/>
-    <use href="#card9S" transform="translate(250, 600)"/>
-    <use href="#card9C" transform="translate(250, 650)"/>
+      <use href="#card9D" transform="translate(250, 500)"/>
+      <use href="#card9H" transform="translate(250, 550)"/>
+      <use href="#card9S" transform="translate(250, 600)"/>
+      <use href="#card9C" transform="translate(250, 650)"/>
 
-    <use href="#cardTD" transform="translate(280, 500)"/>
-    <use href="#cardTH" transform="translate(280, 550)"/>
-    <use href="#cardTS" transform="translate(280, 600)"/>
-    <use href="#cardTC" transform="translate(280, 650)"/>
+      <use href="#cardTD" transform="translate(280, 500)"/>
+      <use href="#cardTH" transform="translate(280, 550)"/>
+      <use href="#cardTS" transform="translate(280, 600)"/>
+      <use href="#cardTC" transform="translate(280, 650)"/>
 
-    <use href="#cardJD" transform="translate(310, 500)"/>
-    <use href="#cardJH" transform="translate(310, 550)"/>
-    <use href="#cardJS" transform="translate(310, 600)"/>
-    <use href="#cardJC" transform="translate(310, 650)"/>
+      <use href="#cardJD" transform="translate(310, 500)"/>
+      <use href="#cardJH" transform="translate(310, 550)"/>
+      <use href="#cardJS" transform="translate(310, 600)"/>
+      <use href="#cardJC" transform="translate(310, 650)"/>
 
-    <use href="#cardQD" transform="translate(340, 500)"/>
-    <use href="#cardQH" transform="translate(340, 550)"/>
-    <use href="#cardQS" transform="translate(340, 600)"/>
-    <use href="#cardQC" transform="translate(340, 650)"/>
+      <use href="#cardQD" transform="translate(340, 500)"/>
+      <use href="#cardQH" transform="translate(340, 550)"/>
+      <use href="#cardQS" transform="translate(340, 600)"/>
+      <use href="#cardQC" transform="translate(340, 650)"/>
 
-    <use href="#cardKD" transform="translate(370, 500)"/>
-    <use href="#cardKH" transform="translate(370, 550)"/>
-    <use href="#cardKS" transform="translate(370, 600)"/>
-    <use href="#cardKC" transform="translate(370, 650)"/>
+      <use href="#cardKD" transform="translate(370, 500)"/>
+      <use href="#cardKH" transform="translate(370, 550)"/>
+      <use href="#cardKS" transform="translate(370, 600)"/>
+      <use href="#cardKC" transform="translate(370, 650)"/>
+    </g>
   </g>
 </svg>
