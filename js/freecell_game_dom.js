@@ -49,11 +49,17 @@ const createFreecellGameDOM = (function () {
         };
     }
 
-    function positionPile(x, y, dx, dy, units) {
+    function positionPile(x, y, cx, cy, sx, sy, units) {
         return function (element, index) {
             element.classList.add("pile");
-            element.style.left = x + index * dx + units;
-            element.style.top = y + index * dy + units;
+            element.style.left = x + index * sx + units;
+            element.style.top = y + index * sy + units;
+            
+            // Calculate background position:
+            const i = Cards.CARD_NUM + Cards.SUIT_NUM;
+            const dx = i % 8;
+            const dy = Math.floor(i / 8);
+            element.style.backgroundPosition = (-dx * cx) + units + ' ' + (-dy * cy) + units;
         };
     }
 
@@ -199,7 +205,7 @@ const createFreecellGameDOM = (function () {
         forEachElement(placeholders, game.BASE_START, game.BASE_END,
             positionBase(BASE_X, BASE_Y, CX, CY, CX + DX, 0, UNITS));
         forEachElement(placeholders, game.PILE_START, game.PILE_END,
-            positionPile(PILE_X, PILE_Y, CX + DX, 0, UNITS));
+            positionPile(PILE_X, PILE_Y, CX, CY, CX + DX, 0, UNITS));
 
         // Create cards:
         function updateCardPosition(transitionClassName) {
