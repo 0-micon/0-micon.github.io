@@ -32,9 +32,14 @@ const createFreecellGameDOM = (function () {
     function positionBase(x, y, dx, dy, units) {
         return function (element, index) {
             element.classList.add("base", Cards.suitFullNameOf(index));
-            element.innerHTML = Cards.suitHTMLCodeOf(index);
+            // element.innerHTML = Cards.suitHTMLCodeOf(index);
             element.style.left = x + index * dx + units;
             element.style.top = y + index * dy + units;
+            // Calculate background position:
+            const i = Cards.CARD_NUM + index;
+            const dx = i % 8;
+            const dy = Math.floor(i / 8);
+            element.style.backgroundPosition = (-dx * cx) + units + ' ' + (-dy * cy) + units;
         };
     }
 
