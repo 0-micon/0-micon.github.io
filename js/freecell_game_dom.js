@@ -61,7 +61,7 @@ const createFreecellGameDOM = (function () {
             const element = document.createElement('div');
             element.classList.add('card', Cards.suitFullNameOf(i));
             element.id = 'm_card_' + i;
-            element.innerHTML = Cards.rankPlayNameOf(i) + Cards.suitHTMLCodeOf(i);
+            // element.innerHTML = Cards.rankPlayNameOf(i) + Cards.suitHTMLCodeOf(i);
             
             element.style.position = 'absolute';
 
