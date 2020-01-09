@@ -33,8 +33,8 @@ const createFreecellGameDOM = (function () {
         return function (element, index) {
             element.classList.add("base", Cards.suitFullNameOf(index));
             // element.innerHTML = Cards.suitHTMLCodeOf(index);
-            element.style.left = x + index * (cx + sx) + units;
-            element.style.top = y + index * (cy + sy) + units;
+            element.style.left = x + index * sx + units;
+            element.style.top = y + index * sy + units;
             // Calculate background position:
             const i = Cards.CARD_NUM + Cards.suit(index);
             const dx = i % 8;
@@ -191,7 +191,7 @@ const createFreecellGameDOM = (function () {
         forEachElement(placeholders, game.CELL_START, game.CELL_END,
             positionCell(CELL_X, CELL_Y, CX + DX, 0, UNITS));
         forEachElement(placeholders, game.BASE_START, game.BASE_END,
-            positionBase(BASE_X, BASE_Y, CX, CY, DX, 0, UNITS));
+            positionBase(BASE_X, BASE_Y, CX, CY, CX + DX, 0, UNITS));
         forEachElement(placeholders, game.PILE_START, game.PILE_END,
             positionPile(PILE_X, PILE_Y, CX + DX, 0, UNITS));
 
