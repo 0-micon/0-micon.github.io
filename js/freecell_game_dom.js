@@ -21,11 +21,17 @@ const createFreecellGameDOM = (function () {
         return children;
     }
 
-    function positionCell(x, y, dx, dy, units) {
+    function positionCell(x, y, cx, cy, sx, sy, units) {
         return function (element, index) {
             element.classList.add("cell");
-            element.style.left = x + index * dx + units;
-            element.style.top = y + index * dy + units;
+            element.style.left = x + index * sx + units;
+            element.style.top = y + index * sy + units;
+            
+            // Calculate background position:
+            const i = Cards.CARD_NUM + Cards.SUIT_NUM;
+            const dx = i % 8;
+            const dy = Math.floor(i / 8);
+            element.style.backgroundPosition = (-dx * cx) + units + ' ' + (-dy * cy) + units;
         };
     }
 
@@ -189,7 +195,7 @@ const createFreecellGameDOM = (function () {
         // Create and position placeholders:
         const placeholders = createPlaceholders(parent, game.DESK_SIZE, CX, CY, UNITS);
         forEachElement(placeholders, game.CELL_START, game.CELL_END,
-            positionCell(CELL_X, CELL_Y, CX + DX, 0, UNITS));
+            positionCell(CELL_X, CELL_Y, CX, CY, CX + DX, 0, UNITS));
         forEachElement(placeholders, game.BASE_START, game.BASE_END,
             positionBase(BASE_X, BASE_Y, CX, CY, CX + DX, 0, UNITS));
         forEachElement(placeholders, game.PILE_START, game.PILE_END,
