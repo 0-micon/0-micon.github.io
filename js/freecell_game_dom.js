@@ -55,14 +55,28 @@ const createFreecellGameDOM = (function () {
         style.height = cy + units;
     }
 
-    function createCards(parent, number, x, y, cx, cy, units) {
-        const cards = new Array(number);
-        for (let i = 0; i < number; i++) {
+    function createCards(parent, count, x, y, cx, cy, units) {
+        const cards = new Array(count);
+        for (let i = 0; i < count; i++) {
             const element = document.createElement('div');
             element.classList.add('card', Cards.suitFullNameOf(i));
             element.id = 'm_card_' + i;
             element.innerHTML = Cards.rankPlayNameOf(i) + Cards.suitHTMLCodeOf(i);
+            
             element.style.position = 'absolute';
+
+            // Calculate background position:
+            const r = Cards.rank(i);
+            const s = Cards.suit(i);
+            const t = s * Cards.RANK_NUM + r;
+            const dx = t % 8;
+            const dy = Math.floor(t / 8);
+            element.style.backgroundPosition = (-dx * cx) + units + ' ' + (-dy * cy) + units;
+            
+            // background-image: url("/resources/svg/cards.svg");
+            // background-size: 20em 28em;
+            // background-position: -7.5em -21em;
+            // background-repeat: no-repeat;
             positionElement(element, x, y, cx, cy, units);
 
             parent.appendChild(element);
