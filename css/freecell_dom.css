@@ -12,6 +12,10 @@
 
 .placeholder {
     background-color:darkslateblue;
+    background-image: url('/resources/svg/cards.svg');
+    background-size: 20em 28em;
+    background-repeat: no-repeat;
+    
     border: 2px solid rgb(64, 64, 64);
     border-radius: 8px;
     opacity: 0.75;
