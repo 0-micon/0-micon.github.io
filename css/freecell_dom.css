@@ -45,8 +45,8 @@
     
     /*display: inline-block;*/
 
-    border: 2px solid darkgray;
-    border-radius: 8px;
+    /*border: 2px solid darkgray;*/
+    border-radius: 5px;
     /*box-shadow: 2px 2px 4px black;*/
 
     vertical-align: middle;
