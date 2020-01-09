@@ -34,9 +34,14 @@
     transition-property: left, top;
     
     background-color: antiquewhite;
+    background-image: url('/resources/svg/cards.svg');
+    background-size: 20em 28em;
+    background-repeat: no-repeat;
+    /*
     background-image: url('/resources/svg/card.svg'), url('/resources/jpg/snow_texture_256x256.jpg');
     background-repeat: no-repeat, repeat;
     background-size: 100%, auto;
+    */
     
     /*display: inline-block;*/
 
