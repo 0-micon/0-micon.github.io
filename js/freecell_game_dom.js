@@ -56,7 +56,7 @@ const createFreecellGameDOM = (function () {
             element.style.top = y + index * sy + units;
             
             // Calculate background position:
-            const i = Cards.CARD_NUM + Cards.SUIT_NUM;
+            const i = Cards.CARD_NUM + Cards.SUIT_NUM + 1;
             const dx = i % 8;
             const dy = Math.floor(i / 8);
             element.style.backgroundPosition = (-dx * cx) + units + ' ' + (-dy * cy) + units;
