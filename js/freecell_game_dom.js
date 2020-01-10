@@ -1,5 +1,11 @@
 const createFreecellGameDOM = (function () {
     // Helpers:
+    function getBackgroundPosition(index, cx, cy, units) {
+        const col = index % 8;
+        const row = Math.floor(index / 8);
+        return (-cx * col) + units + ' ' + (-cy * row) + units;
+    }
+    
     function forEachElement(children, from, to, callback) {
         for (let i = from; i < to; i++) {
             callback(children[i], i - from);
@@ -26,26 +32,16 @@ const createFreecellGameDOM = (function () {
             element.classList.add("cell");
             element.style.left = x + index * sx + units;
             element.style.top = y + index * sy + units;
-            
-            // Calculate background position:
-            const i = Cards.CARD_NUM + Cards.SUIT_NUM;
-            const dx = i % 8;
-            const dy = Math.floor(i / 8);
-            element.style.backgroundPosition = (-dx * cx) + units + ' ' + (-dy * cy) + units;
+            element.style.backgroundPosition = getBackgroundPosition(Cards.CARD_NUM + Cards.SUIT_NUM, cx, cy, units);
         };
     }
 
     function positionBase(x, y, cx, cy, sx, sy, units) {
         return function (element, index) {
             element.classList.add("base", Cards.suitFullNameOf(index));
-            // element.innerHTML = Cards.suitHTMLCodeOf(index);
             element.style.left = x + index * sx + units;
             element.style.top = y + index * sy + units;
-            // Calculate background position:
-            const i = Cards.CARD_NUM + Cards.suit(index);
-            const dx = i % 8;
-            const dy = Math.floor(i / 8);
-            element.style.backgroundPosition = (-dx * cx) + units + ' ' + (-dy * cy) + units;
+            element.style.backgroundPosition = getBackgroundPosition(Cards.CARD_NUM + Cards.suit(index), cx, cy, units);
         };
     }
 
@@ -54,12 +50,7 @@ const createFreecellGameDOM = (function () {
             element.classList.add("pile");
             element.style.left = x + index * sx + units;
             element.style.top = y + index * sy + units;
-            
-            // Calculate background position:
-            const i = Cards.CARD_NUM + Cards.SUIT_NUM + 1;
-            const dx = i % 8;
-            const dy = Math.floor(i / 8);
-            element.style.backgroundPosition = (-dx * cx) + units + ' ' + (-dy * cy) + units;
+            element.style.backgroundPosition = getBackgroundPosition(Cards.CARD_NUM + Cards.SUIT_NUM + 1, cx, cy, units);
         };
     }
 
@@ -78,14 +69,8 @@ const createFreecellGameDOM = (function () {
             const element = document.createElement('div');
             element.classList.add('card', Cards.suitFullNameOf(i));
             element.id = 'm_card_' + i;
-            // element.innerHTML = Cards.rankPlayNameOf(i) + Cards.suitHTMLCodeOf(i);
-
             element.style.position = 'absolute';
-
-            // Calculate background position:
-            const dx = i % 8;
-            const dy = Math.floor(i / 8);
-            element.style.backgroundPosition = (-dx * cx) + units + ' ' + (-dy * cy) + units;
+            element.style.backgroundPosition = getBackgroundPosition(i, cx, cy, units);
 
             positionElement(element, x, y, cx, cy, units);
 
