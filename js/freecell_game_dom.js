@@ -441,7 +441,7 @@ const createFreecellGame = (function () {
         history.itemToHTML = function () {
             const index = history.current;
             const item = history.currentItem;
-            const li = document.createElement('li');
+            //const li = document.createElement('li');
             let from = to = '-1';
             if (game.isPile(item.to)) {
                 to = 'pile ' + (item.to - game.PILE_START);
