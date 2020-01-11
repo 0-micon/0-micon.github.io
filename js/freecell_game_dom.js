@@ -459,10 +459,15 @@ const createFreecellGame = (function () {
             if (game.isCell(item.from)) {
                 from = 'cell ' + (item.from - game.CELL_START);
             }
+            
+            const emptyCount = game.emptyCellCount() + game.emptyPileCount();
 
             const el = document.createElement(tagName);
             el.innerHTML = '<span class="' + Cards.suitFullNameOf(item.card) + '">' + Cards.playNameOf(item.card) + '</span>'
-                + ': ' + from + '&rarr;' + to + '; free ' + (game.emptyCellCount() + game.emptyPileCount());
+                + ': ' + from + '&rarr;' + to + '; free ' + emptyCount;
+            const levels = ['critical', 'extreme', 'very-high', 'high', 'moderate', 'low'];
+            el.classList.add('danger-' + (levels[emptyCount] || 'very-low'));
+            
             return el;
         };
 
