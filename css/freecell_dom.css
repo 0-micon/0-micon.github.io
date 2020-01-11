@@ -123,3 +123,31 @@ section {
         box-shadow: 2px 2px 4px black;
     }
 }
+
+.danger-very-low {
+    background-color: #BBEE90;
+}
+
+.danger-low {
+    background-color: #BBDD85;
+}
+
+.danger-moderate {
+    background-color: #BBCC80;
+}
+
+.danger-high {
+    background-color: #FFEE30;
+}
+
+.danger-very-high {
+    background-color: #FFCC00;
+}
+
+.danger-extreme {
+    background-color: #FF9920;
+}
+
+.danger-critical {
+    background-color: #FF5540;
+}
