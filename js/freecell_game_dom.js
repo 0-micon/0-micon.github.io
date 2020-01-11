@@ -382,9 +382,7 @@ const createFreecellGame = (function () {
         history.onadd = function () {
             const index = history.current;
             //const item = history.currentItem;
-            const li = document.createElement('li');
-
-            li.innerHTML = history.itemToHTML();
+            const li = history.createElement('li');
             li.onclick = function () {
                 history.onclickitem(index);
             };
@@ -438,10 +436,10 @@ const createFreecellGame = (function () {
         // History object
         const history = createFreecellHistory(gui.history);
 
-        history.itemToHTML = function () {
+        history.createElement = function (tagName) {
             const index = history.current;
             const item = history.currentItem;
-            //const li = document.createElement('li');
+            
             let from = to = '-1';
             if (game.isPile(item.to)) {
                 to = 'pile ' + (item.to - game.PILE_START);
@@ -462,8 +460,10 @@ const createFreecellGame = (function () {
                 from = 'cell ' + (item.from - game.CELL_START);
             }
 
-            return '<span class="' + Cards.suitFullNameOf(item.card) + '">' + Cards.playNameOf(item.card) + '</span>'
+            const el = document.createElement(tagName);
+            el.innerHTML = '<span class="' + Cards.suitFullNameOf(item.card) + '">' + Cards.playNameOf(item.card) + '</span>'
                 + ': ' + from + '&rarr;' + to + '; free ' + (game.emptyCellCount() + game.emptyPileCount());
+            return el;
         };
 
         history.onclickitem = function (index) {
