@@ -31,17 +31,25 @@
         <textarea id="m_b_message" class="column side"></textarea>
       </div>
     </section>
-    <section id="m_game">
-    </section>
-    <section class="game-buttons">
-      <button id="m_deal">Deal</button>
-      <button id="m_auto" disabled>Auto</button>
-      <button id="m_undo" disabled>Undo</button>
-      <button id="m_redo" disabled>Redo</button>
-    </section>
-    <section class="game-history">
-      <ol id="m_history">History:</ol>
-    </section>
+    <div class="game-container">
+      <div class="game-row">
+        <div class="game-col">
+          <section id="m_game">
+          </section>
+          <section class="game-buttons">
+            <button id="m_deal">Deal</button>
+            <button id="m_auto" disabled>Auto</button>
+            <button id="m_undo" disabled>Undo</button>
+            <button id="m_redo" disabled>Redo</button>
+          </section>
+        </div>
+        <div class="game-col">
+          <section class="game-history">
+            <ol id="m_history">History:</ol>
+          </section>
+        </div>
+      </div>
+    </div>
   </div>
 
   <script src="js/utils.js"></script>
