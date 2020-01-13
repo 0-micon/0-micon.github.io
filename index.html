@@ -121,8 +121,9 @@
   </script>
   <script>
     m_from_url.onclick = function () {
-      fetch(m_from_url_text.value).then((response) => {
-        console.log('Response:', response);
+      fetch(m_from_url_text.value)
+        .then(response => response.text())
+        .then(text => m_b_message.value = text);
       });
     };
   </script>
