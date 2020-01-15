@@ -86,13 +86,17 @@
     if (!isNaN(deal)) {
       freecell.deal(deal);
     }
+    let moves = [];
     freecell.addOnDealListener(function (event) {
       deal = event.deal;
+      moves = [];
       history.pushState(null, null, "?deal=" + event.deal);
     });
     freecell.addOnMoveListener(function (event) {
       console.log('Move Event:', event);
-      // event.card, event.source, event.destination;
+      moves.push(event.source);
+      moves.push(event.destination);
+      history.pushState(null, null, "?deal=" + event.deal + '&moves=' + moves.join('_'));
     });
     
   </script>
