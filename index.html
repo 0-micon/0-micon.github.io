@@ -60,6 +60,19 @@
   <script src="js/freecell_game_dom.js"></script>
 
   <script>
+    "use strict";
+    function getQuery(key, defaultValue) {
+        var query = window.location.search.substring(1); // skip over '?' character
+        var split = query.split("&");
+        for (var i = 0; i < split.length; i++) {
+            var pair = split[i].split("=");
+            if (pair[0] === key) {
+                return pair[1];
+            }
+        }
+        return defaultValue;
+    }
+    
     const freecell = createFreecellGame(8, 4, 4, {
       parent: m_game,
       deal: m_deal,
@@ -68,6 +81,12 @@
       redo: m_redo,
       history: m_history
     });
+    
+    const n = +getQuery('deal');
+    if (!isNan(n)) {
+      freecell.deal(n);
+    }
+    
   </script>
   <script src="js/tea.min.js"></script>
   <script>
