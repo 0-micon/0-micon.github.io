@@ -82,12 +82,17 @@
       history: m_history
     });
     
-    const n = +getQuery('deal');
-    if (!isNaN(n)) {
-      freecell.deal(n);
+    let deal = +getQuery('deal');
+    if (!isNaN(deal)) {
+      freecell.deal(deal);
     }
     freecell.addOnDealListener(function (event) {
+      deal = event.deal;
       history.pushState(null, null, "?deal=" + event.deal);
+    });
+    freecell.addOnMoveListener(function (event) {
+      console.log('Move Event:', event);
+      // event.card, event.source, event.destination;
     });
     
   </script>
