@@ -86,6 +86,9 @@
     if (!isNaN(n)) {
       freecell.deal(n);
     }
+    freecell.addOnDealListener(function (event) {
+      history.pushState(null, null, "?deal=" + event.deal);
+    });
     
   </script>
   <script src="js/tea.min.js"></script>
