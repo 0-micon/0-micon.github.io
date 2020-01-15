@@ -41,13 +41,14 @@ function createFreecellManager(pileNum, cellNum, baseNum) {
         return queue.removeEventListener('move', id);
     }
 
-    function deal(number) {
-        const cards = desk.deal(number);
+    function deal(n) {
+        const cards = desk.deal(n);
         getMoves();
         
         const event = {
             name: 'deal',
             deck: cards,
+            deal: n
         };
         queue.notifyAll(event);
 
