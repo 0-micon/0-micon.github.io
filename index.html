@@ -83,6 +83,7 @@
     });
     
     let moves = [];
+    let mark = 0;
     let deal = +getQuery('deal');
     if (!isNaN(deal)) {
       freecell.deal(deal);
@@ -94,6 +95,14 @@
           freecell.splice(i); // drop out invalid moves
           break;
         }
+      }
+      mark = +getQuery('mark');
+      if (mark >= 0 && mark < moves.length) {
+        for (let i = moves.length; i - 1 > mark; i-=2) {
+          freecell.moveCard(moves[i - 1], moves[i - 2]); // move back
+        }
+      } else {
+        mark = moves.length;
       }
     }
     
