@@ -72,14 +72,7 @@
         }
         return defaultValue;
     }
-    function getMoves() {
-      let moves = getQuery('moves', '').split('_');
-      for (let i = 0; i < moves.length; i++) {
-        moves[i] = +moves[i];
-      }
-      return moves;
-    }
-    
+
     const freecell = createFreecellGame(8, 4, 4, {
       parent: m_game,
       deal: m_deal,
@@ -93,7 +86,7 @@
     let deal = +getQuery('deal');
     if (!isNaN(deal)) {
       freecell.deal(deal);
-      moves = getMoves();
+      moves = MathUtils.stringToByteArray(getQuery('moves', ''));
       for (let i = 0; i < moves.length; i+=2) {
         // TODO: Check move for validity.
       }
@@ -107,7 +100,7 @@
     freecell.addOnMoveListener(function (event) {
       moves.push(event.source);
       moves.push(event.destination);
-      history.pushState(null, null, "?deal=" + deal + '&moves=' + moves.join('_'));
+      history.pushState(null, null, "?deal=" + deal + '&moves=' + MathUtils.byteArrayToString(moves));
     });
     
   </script>
