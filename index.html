@@ -109,12 +109,34 @@
     freecell.addOnDealListener(function (event) {
       deal = event.deal;
       moves = [];
+      mark = moves.length;
       history.pushState(null, null, "?deal=" + deal);
     });
     freecell.addOnMoveListener(function (event) {
-      moves.push(event.source);
-      moves.push(event.destination);
-      history.pushState(null, null, "?deal=" + deal + '&moves=' + MathUtils.byteArrayToString(moves));
+      if (moves.length - mark >= 2
+          && moves[mark] === event.source
+          && moves[mark + 1] === event.destination) {
+        mark += 2; // skip forward
+      } else if (mark >= 2
+                 && moves[mark - 1] === event.source
+                 && moves[mark - 2] === event.destination) {
+        mark -= 2; // skip backward
+      } else {
+        if (mark < moves.length) {
+          freecell.splice(mark); // drop out old moves
+        }
+        
+        moves.push(event.source);
+        moves.push(event.destination);
+        mark = moves.length; // append
+      }
+     
+      if (mark === moves.length) {
+        history.pushState(null, null, "?deal=" + deal + '&moves=' + MathUtils.byteArrayToString(moves));
+      } else {
+        history.pushState(null, null, "?deal=" + deal + '&moves=' + MathUtils.byteArrayToString(moves)
+                          + '&mark=' + mark);
+      }
     });
     
   </script>
