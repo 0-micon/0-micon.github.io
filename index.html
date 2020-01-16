@@ -88,7 +88,7 @@
       freecell.deal(deal);
       moves = MathUtils.stringToByteArray(getQuery('moves', ''));
       for (let i = 0; i + 1 < moves.length; i+=2) {
-        if (freecell.isMoveValid(moves[i], moves[i + 1]) {
+        if (freecell.isMoveValid(moves[i], moves[i + 1])) {
           freecell.moveCard(moves[i], moves[i + 1]);
         } else {
           freecell.splice(i); // drop out invalid moves
