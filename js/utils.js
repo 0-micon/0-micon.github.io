@@ -11,6 +11,35 @@ var MathUtils;
         return Math.floor(Math.random() * (maxValue - minValue)) + minValue;
     }
     MathUtils.randomIneger = randomIneger;
+    var CODE_0 = '0'.charCodeAt(0);
+    var CODE_A = 'a'.charCodeAt(0);
+    function byteToCode(n) {
+        if (n >= 0 && n < 10) {
+            return CODE_0 + n;
+        }
+        else {
+            return CODE_A + n - 10;
+        }
+    }
+    MathUtils.byteToCode = byteToCode;
+    function codeToByte(code) {
+        if (code >= CODE_A) {
+            return 10 + code - CODE_A;
+        }
+        else {
+            return code - CODE_0;
+        }
+    }
+    MathUtils.codeToByte = codeToByte;
+    function byteArrayToString(arr) {
+        var codes = arr.map(function (n) { return byteToCode(n); });
+        return String.fromCharCode.apply(String, codes);
+    }
+    MathUtils.byteArrayToString = byteArrayToString;
+    function byteAt(str, index) {
+        return codeToByte(str.charCodeAt(index));
+    }
+    MathUtils.byteAt = byteAt;
 })(MathUtils || (MathUtils = {}));
 
 function newSingleElementSelector(selectionClassName) {
