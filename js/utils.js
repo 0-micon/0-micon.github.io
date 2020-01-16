@@ -40,6 +40,14 @@ var MathUtils;
         return codeToByte(str.charCodeAt(index));
     }
     MathUtils.byteAt = byteAt;
+    function stringToByteArray(str) {
+        var arr = [];
+        for (var i = 0; i < str.length; i++) {
+            arr.push(codeToByte(str.charCodeAt(i)));
+        }
+        return arr;
+    }
+    MathUtils.stringToByteArray = stringToByteArray;
 })(MathUtils || (MathUtils = {}));
 
 function newSingleElementSelector(selectionClassName) {
