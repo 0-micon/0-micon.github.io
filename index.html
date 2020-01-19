@@ -92,7 +92,7 @@
         if (freecell.isMoveValid(moves[i], moves[i + 1])) {
           freecell.moveCard(moves[i], moves[i + 1]);
         } else {
-          freecell.splice(i); // drop out invalid moves
+          moves.splice(i); // drop out invalid moves
           break;
         }
       }
