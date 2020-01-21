@@ -1,5 +1,15 @@
 const createFreecellGameDOM = (function () {
     // Helpers:
+    function enableButton(btn, value) {
+        if (value !== !btn.hasAttribute('disabled')) {
+            if (value) {
+                btn.removeAttribute('disabled');
+            } else {
+                btn.setAttribute('disabled', 'disabled');
+            }
+        }
+    }
+    
     function getBackgroundPosition(index, cx, cy, units) {
         const col = index % 8;
         const row = Math.floor(index / 8);
@@ -535,19 +545,11 @@ const createFreecellGame = (function () {
             }
 
             if (gui.undo) {
-                if (history.current >= 0) {
-                    gui.undo.removeAttribute('disabled');
-                } else {
-                    gui.undo.setAttribute('disabled', 'disabled');
-                }
+                enableButton(gui.undo, history.current >= 0);
             }
 
             if (gui.redo) {
-                if (history.total > history.length) {
-                    gui.redo.removeAttribute('disabled');
-                } else {
-                    gui.redo.setAttribute('disabled', 'disabled');
-                }
+                enableButton(gui.redo, history.total > history.length);
             }
         }
 
