@@ -534,14 +534,14 @@ const createFreecellGame = (function () {
 
         function updateButtons() {
             if (gui.auto) {
-                gui.auto.setAttribute('disabled', 'disabled');
-                let count = 0;
+                let isBase = false;
                 game.forEachMove(function (source, destination) {
                     if (game.isBase(destination)) {
-                        gui.auto.removeAttribute('disabled');
+                        isBase = true;
                         return true;
                     }
                 });
+                enableButton(gui.auto, isBase);
             }
 
             if (gui.undo) {
