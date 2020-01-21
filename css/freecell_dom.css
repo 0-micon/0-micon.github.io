@@ -117,7 +117,7 @@ section {
 /* Extra large devices (large desktops, 1200px and up) */
 @media (min-width: 1200px) {
     #m_game {
-        font-size: 22px;
+        font-size: 32px;
     }
     .card {
         box-shadow: 2px 2px 4px black;
