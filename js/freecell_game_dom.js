@@ -1,15 +1,5 @@
 const createFreecellGameDOM = (function () {
     // Helpers:
-    function enableButton(btn, value) {
-        if (value !== !btn.hasAttribute('disabled')) {
-            if (value) {
-                btn.removeAttribute('disabled');
-            } else {
-                btn.setAttribute('disabled', 'disabled');
-            }
-        }
-    }
-    
     function getBackgroundPosition(index, cx, cy, units) {
         const col = index % 8;
         const row = Math.floor(index / 8);
@@ -378,6 +368,16 @@ const createFreecellGameDOM = (function () {
 })();
 
 const createFreecellGame = (function () {
+    function enableButton(btn, value) {
+        if (value !== !btn.hasAttribute('disabled')) {
+            if (value) {
+                btn.removeAttribute('disabled');
+            } else {
+                btn.setAttribute('disabled', 'disabled');
+            }
+        }
+    }
+
     function createFreecellHistory(parent) {
         const history = newHistory();
         const historySelector = newSingleElementSelector('selected');
