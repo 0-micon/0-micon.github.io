@@ -193,12 +193,8 @@ const createFreecellGameDOM = (function () {
             if (i >= 0) {
                 const style = this.element.style;
 
-                style.left = placeholders[i].style.left;
-                if (game.isPile(i)) {
-                    style.top = parseFloat(placeholders[i].style.top) + this.index * DY + UNITS;
-                } else {
-                    style.top = placeholders[i].style.top;
-                }
+                style.left = toPercent(layout.getCardX(i), layout.width);
+                style.top = toPercent(layout.getCardY(i), layout.height);
             }
 
             if (!this.transitionClassName) {
