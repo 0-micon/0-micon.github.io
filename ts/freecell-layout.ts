@@ -88,6 +88,37 @@ function createFreecellLayout(basis: FreecellBasis, dx = 1, dy = 1, cx = 2, cy =
     getPileY(_index: number): number {
       return this.pileStartY;
     },
+    // Cards
+    getCardX(spotIndex: number, cardIndex: number, cardCount: number): number {
+      if (basis.isCell(spotIndex)) {
+        return this.getCellX(spotIndex);
+      }
+      if (basis.isBase(spotIndex)) {
+        return this.getBaseX(spotIndex);
+      }
+      if (basis.isPile(spotIndex)) {
+        return this.getPileX(spotIndex);
+      }
+      return 0;
+    },
+    getCardY(spotIndex: number, cardIndex: number, cardCount: number): number {
+      if (basis.isCell(spotIndex)) {
+        return this.getCellY(spotIndex);
+      }
+      if (basis.isBase(spotIndex)) {
+        return this.getBaseY(spotIndex);
+      }
+      if (basis.isPile(spotIndex)) {
+        const y = this.getPileY(spotIndex);
+        const h = this.pileEndY - this.pileStartY;
+        if (cardCount > 0) {
+          const dh = Math.min(h / cardCount, dy);
+          return linearTransition(y, y + dh * cardCount, cardIndex / cardCount);
+        }
+        return y;
+      }
+      return 0;
+    },
     // Total Size:
     width, height
   };
