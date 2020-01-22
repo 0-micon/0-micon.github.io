@@ -153,6 +153,7 @@ const createFreecellGameDOM = (function () {
     return function (pileNum, cellNum, baseNum, parent) {
         // Base object
         const game = createFreecellManager(pileNum, cellNum, baseNum);
+        const layout = createFreecellLayout(game);
 
         // Autoplay object
         const autoplay = createAutoplay(game, 250);
@@ -185,8 +186,16 @@ const createFreecellGameDOM = (function () {
 
         // Create and position placeholders:
         const placeholders = createPlaceholders(parent, game.DESK_SIZE, CX, CY, UNITS);
+        // position cell
         forEachElement(placeholders, game.CELL_START, game.CELL_END,
-            positionCell(CELL_X, CELL_Y, CX, CY, CX + DX, 0, UNITS));
+            (element, index) => {
+                element.classList.add("cell");
+                const x = layout.cellStartX + index * (layout.cellEndX - layout.cellStartX) / game.CELL_NUM;
+                const y = layout.cellStartY;
+                element.style.left = (x / layout.width).toFixed(3) + '%';
+                element.style.top = (y / layout.height).toFixed(3) + '%';
+                element.style.backgroundPosition = getBackgroundPosition(Cards.CARD_NUM + Cards.SUIT_NUM, CX, CY, UNITS);
+        });
         forEachElement(placeholders, game.BASE_START, game.BASE_END,
             positionBase(BASE_X, BASE_Y, CX, CY, CX + DX, 0, UNITS));
         forEachElement(placeholders, game.PILE_START, game.PILE_END,
