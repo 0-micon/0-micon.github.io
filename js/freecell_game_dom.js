@@ -30,15 +30,6 @@ const createFreecellGameDOM = (function () {
         return children;
     }
 
-    function positionCell(x, y, cx, cy, sx, sy, units) {
-        return function (element, index) {
-            element.classList.add("cell");
-            element.style.left = x + index * sx + units;
-            element.style.top = y + index * sy + units;
-            element.style.backgroundPosition = getBackgroundPosition(Cards.CARD_NUM + Cards.SUIT_NUM, cx, cy, units);
-        };
-    }
-
     function positionBase(x, y, cx, cy, sx, sy, units) {
         return function (element, index) {
             element.classList.add("base", Cards.suitFullNameOf(index));
@@ -193,10 +184,8 @@ const createFreecellGameDOM = (function () {
         forEachElement(placeholders, game.CELL_START, game.CELL_END,
             (element, index) => {
                 element.classList.add("cell");
-                const x = layout.cellStartX + index * (layout.cellEndX - layout.cellStartX) / game.CELL_NUM;
-                const y = layout.cellStartY;
-                element.style.left = (100 * x / layout.width).toFixed(3) + '%';
-                element.style.top = (100 * y / layout.height).toFixed(3) + '%';
+                element.style.left = toPercent(layout.getCellX(index), layout.width);
+                element.style.top = toPercent(layout.getCellY(index), layout.height);
                 element.style.backgroundPosition = getBackgroundPosition(Cards.CARD_NUM + Cards.SUIT_NUM, CX, CY, UNITS);
         });
         forEachElement(placeholders, game.BASE_START, game.BASE_END,
