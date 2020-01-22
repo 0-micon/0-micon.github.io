@@ -62,25 +62,25 @@ function createFreecellLayout(basis, dx, dy, cx, cy) {
         // Cards
         getCardX: function (spotIndex, cardIndex, cardCount) {
             if (basis.isCell(spotIndex)) {
-                return this.getCellX(spotIndex);
+                return this.getCellX(spotIndex - basis.CELL_START);
             }
             if (basis.isBase(spotIndex)) {
-                return this.getBaseX(spotIndex);
+                return this.getBaseX(spotIndex - basis.BASE_START);
             }
-            if (basis.isPile(spotIndex)) {
+            if (basis.isPile(spotIndex - basis.PILE_START)) {
                 return this.getPileX(spotIndex);
             }
             return 0;
         },
         getCardY: function (spotIndex, cardIndex, cardCount) {
             if (basis.isCell(spotIndex)) {
-                return this.getCellY(spotIndex);
+                return this.getCellY(spotIndex - basis.CELL_START);
             }
             if (basis.isBase(spotIndex)) {
-                return this.getBaseY(spotIndex);
+                return this.getBaseY(spotIndex - basis.BASE_START);
             }
             if (basis.isPile(spotIndex)) {
-                var y = this.getPileY(spotIndex);
+                var y = this.getPileY(spotIndex - basis.PILE_START);
                 var h = this.pileEndY - this.pileStartY;
                 if (cardCount > 0) {
                     var dh = Math.min(h / cardCount, dy);
