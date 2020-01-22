@@ -30,24 +30,6 @@ const createFreecellGameDOM = (function () {
         return children;
     }
 
-    function positionBase(x, y, cx, cy, sx, sy, units) {
-        return function (element, index) {
-            element.classList.add("base", Cards.suitFullNameOf(index));
-            element.style.left = x + index * sx + units;
-            element.style.top = y + index * sy + units;
-            element.style.backgroundPosition = getBackgroundPosition(Cards.CARD_NUM + Cards.suit(index), cx, cy, units);
-        };
-    }
-
-    function positionPile(x, y, cx, cy, sx, sy, units) {
-        return function (element, index) {
-            element.classList.add("pile");
-            element.style.left = x + index * sx + units;
-            element.style.top = y + index * sy + units;
-            element.style.backgroundPosition = getBackgroundPosition(Cards.CARD_NUM + Cards.SUIT_NUM + 1, cx, cy, units);
-        };
-    }
-
     function positionElement(element, x, y, cx, cy, units) {
         const style = element.style;
 
@@ -180,7 +162,7 @@ const createFreecellGameDOM = (function () {
 
         // Create and position placeholders:
         const placeholders = createPlaceholders(parent, game.DESK_SIZE, CX, CY, UNITS);
-        // position cell
+        // position cells
         forEachElement(placeholders, game.CELL_START, game.CELL_END,
             (element, index) => {
                 element.classList.add("cell");
@@ -188,10 +170,22 @@ const createFreecellGameDOM = (function () {
                 element.style.top = toPercent(layout.getCellY(index), layout.height);
                 element.style.backgroundPosition = getBackgroundPosition(Cards.CARD_NUM + Cards.SUIT_NUM, CX, CY, UNITS);
         });
+        // position bases
         forEachElement(placeholders, game.BASE_START, game.BASE_END,
-            positionBase(BASE_X, BASE_Y, CX, CY, CX + DX, 0, UNITS));
+           (element, index) => {
+                element.classList.add("base", Cards.suitFullNameOf(index));
+                element.style.left = toPercent(layout.getBaseX(index), layout.width);
+                element.style.top = toPercent(layout.getBaseY(index), layout.height);
+                element.style.backgroundPosition = getBackgroundPosition(Cards.CARD_NUM + Cards.suit(index), CX, CY, UNITS);
+        });
+        // position piles
         forEachElement(placeholders, game.PILE_START, game.PILE_END,
-            positionPile(PILE_X, PILE_Y, CX, CY, CX + DX, 0, UNITS));
+            (element, index) => {
+                element.classList.add("pile");
+                element.style.left = toPercent(layout.getPileX(index), layout.width);
+                element.style.top = toPercent(layout.getPileY(index), layout.height);
+                element.style.backgroundPosition = getBackgroundPosition(Cards.CARD_NUM + Cards.SUIT_NUM + 1, CX, CY, UNITS);
+        });
 
         // Create cards:
         function updateCardPosition(transitionClassName) {
