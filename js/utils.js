@@ -1,3 +1,70 @@
+"use strict";
+function createFreecellLayout(basis, dx, dy, cx, cy) {
+    if (dx === void 0) { dx = 1; }
+    if (dy === void 0) { dy = 1; }
+    if (cx === void 0) { cx = 2; }
+    if (cy === void 0) { cy = 2; }
+    return {
+        get itemWidth() {
+            return cx;
+        },
+        get itemHeight() {
+            return cy;
+        },
+        get deltaWidth() {
+            return dx;
+        },
+        get deltaHeight() {
+            return dy;
+        },
+        // Cells:
+        get cellStartX() {
+            return dx;
+        },
+        get cellEndX() {
+            return this.cellStartX + basis.CELL_NUM * (cx + dx);
+        },
+        get cellStartY() {
+            return dy;
+        },
+        get cellEndY() {
+            return this.cellStartY + cy;
+        },
+        // Bases:
+        get baseStartX() {
+            return this.cellEndX;
+        },
+        get baseEndX() {
+            return this.baseStartX + basis.BASE_NUM * (cx + dx);
+        },
+        get baseStartY() {
+            return this.cellStartY;
+        },
+        get baseEndY() {
+            return this.cellEndY;
+        },
+        // Piles
+        get pileStartX() {
+            return dx;
+        },
+        get pileEndX() {
+            return this.pileStartX + basis.PILE_NUM * (cx + dx);
+        },
+        get pileStartY() {
+            return this.cellEndY + dy;
+        },
+        get pileEndY() {
+            return this.pileStartY + 5 * cy;
+        },
+        // Total:
+        get width() {
+            return Math.max(this.baseEndX, this.cellEndX, this.pileEndX);
+        },
+        get height() {
+            return Math.max(this.baseEndY, this.cellEndY, this.pileEndY) + dy;
+        }
+    };
+}
 var MathUtils;
 (function (MathUtils) {
     /*\
