@@ -4,65 +4,63 @@ function createFreecellLayout(basis, dx, dy, cx, cy) {
     if (dy === void 0) { dy = 1; }
     if (cx === void 0) { cx = 2; }
     if (cy === void 0) { cy = 2; }
+    var cellStartX = dx;
+    var cellEndX = cellStartX + basis.CELL_NUM * (cx + dx);
+    var cellStartY = dy;
+    var cellEndY = cellStartY + cy;
+    var baseStartX = cellEndX;
+    var baseEndX = baseStartX + basis.BASE_NUM * (cx + dx);
+    var baseStartY = cellStartY;
+    var baseEndY = cellEndY;
+    var pileStartX = dx;
+    var pileEndX = pileStartX + basis.PILE_NUM * (cx + dx);
+    var pileStartY = cellEndY + dy;
+    var pileEndY = pileStartY + 5 * cy;
+    var width = Math.max(baseEndX, cellEndX, pileEndX);
+    var height = Math.max(baseEndY, cellEndY, pileEndY) + dy;
+    function linearTransition(start, end, ratio) {
+        return start + (end - start) * ratio;
+    }
     return {
-        get itemWidth() {
-            return cx;
-        },
-        get itemHeight() {
-            return cy;
-        },
-        get deltaWidth() {
-            return dx;
-        },
-        get deltaHeight() {
-            return dy;
-        },
+        itemWidth: cx,
+        itemHeight: cy,
+        deltaWidth: dx,
+        deltaHeight: dy,
         // Cells:
-        get cellStartX() {
-            return dx;
+        cellStartX: cellStartX,
+        cellEndX: cellEndX,
+        cellStartY: cellStartY,
+        cellEndY: cellEndY,
+        getCellX: function (index) {
+            return linearTransition(this.cellStartX, this.cellEndX, index / basis.CELL_NUM);
         },
-        get cellEndX() {
-            return this.cellStartX + basis.CELL_NUM * (cx + dx);
-        },
-        get cellStartY() {
-            return dy;
-        },
-        get cellEndY() {
-            return this.cellStartY + cy;
-        },
-        // Bases:
-        get baseStartX() {
-            return this.cellEndX;
-        },
-        get baseEndX() {
-            return this.baseStartX + basis.BASE_NUM * (cx + dx);
-        },
-        get baseStartY() {
+        getCellY: function (_index) {
             return this.cellStartY;
         },
-        get baseEndY() {
-            return this.cellEndY;
+        // Bases:
+        baseStartX: baseStartX,
+        baseEndX: baseEndX,
+        baseStartY: baseStartY,
+        baseEndY: baseEndY,
+        getBaseX: function (index) {
+            return linearTransition(this.baseStartX, this.baseEndX, index / basis.BASE_NUM);
+        },
+        getBaseY: function (_index) {
+            return this.baseStartY;
         },
         // Piles
-        get pileStartX() {
-            return dx;
+        pileStartX: pileStartX,
+        pileEndX: pileEndX,
+        pileStartY: pileStartY,
+        pileEndY: pileEndY,
+        getPileX: function (index) {
+            return linearTransition(this.pileStartX, this.pileEndX, index / basis.PILE_NUM);
         },
-        get pileEndX() {
-            return this.pileStartX + basis.PILE_NUM * (cx + dx);
+        getPileY: function (_index) {
+            return this.pileStartY;
         },
-        get pileStartY() {
-            return this.cellEndY + dy;
-        },
-        get pileEndY() {
-            return this.pileStartY + 5 * cy;
-        },
-        // Total:
-        get width() {
-            return Math.max(this.baseEndX, this.cellEndX, this.pileEndX);
-        },
-        get height() {
-            return Math.max(this.baseEndY, this.cellEndY, this.pileEndY) + dy;
-        }
+        // Total Size:
+        width: width, height: height
     };
 }
 var MathUtils;
