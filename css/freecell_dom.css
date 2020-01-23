@@ -51,7 +51,7 @@
     
     background-color: antiquewhite;
     background-image: url('/resources/svg/cards.svg');
-    background-size: 20em 28em;
+    background-size: 800% 800%;
     background-repeat: no-repeat;
     /*
     background-image: url('/resources/svg/card.svg'), url('/resources/jpg/snow_texture_256x256.jpg');
