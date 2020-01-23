@@ -15,13 +15,13 @@ const createFreecellGameDOM = (function () {
         }
     }
 
-    function createPlaceholders(parent, number, cx, cy, units) {
-        const children = new Array(number);
-        for (let i = 0; i < number; i++) {
+    function createPlaceholders(parent, count, width, height) {
+        const children = new Array(count);
+        for (let i = 0; i < count; i++) {
             const element = (children[i] = document.createElement("div"));
             element.style.position = "absolute";
-            element.style.width = cx + units;
-            element.style.height = cy + units;
+            element.style.width = width;
+            element.style.height = height;
             element.style.zIndex = 0;
             element.classList.add("placeholder");
 
@@ -146,12 +146,6 @@ const createFreecellGameDOM = (function () {
           DY = 1, // 0.25 * CY,
           PLAY_CX = Math.max(game.CELL_NUM + game.BASE_NUM, game.PILE_NUM) * (CX + DX) + DX,
           PLAY_CY = 8 * CY,
-          CELL_X = DX, // CX,
-          CELL_Y = DY, // CY,
-          BASE_X = CELL_X + game.CELL_NUM * (CX + DX),
-          BASE_Y = CELL_Y,
-          PILE_X = CELL_X,
-          PILE_Y = CELL_Y + CY + DY,
           TRANSITION_DEAL = 'transition_deal',
           TRANSITION_NORM = 'transition_norm',
           TRANSITION_FAST = 'transition_fast';
@@ -161,7 +155,9 @@ const createFreecellGameDOM = (function () {
         positionElement(parent, 0, 0, PLAY_CX, PLAY_CY, UNITS);
 
         // Create and position placeholders:
-        const placeholders = createPlaceholders(parent, game.DESK_SIZE, CX, CY, UNITS);
+        const placeholders = createPlaceholders(parent, game.DESK_SIZE,
+                                                toPercent(layout.itemWidth, layout.width),
+                                                toPercent(layout.itemHeight, layout.height));
         // position cells
         forEachElement(placeholders, game.CELL_START, game.CELL_END,
             (element, index) => {
@@ -207,7 +203,7 @@ const createFreecellGameDOM = (function () {
             if (!this.transitionClassName) {
                 this.element.classList.add(transitionClassName);
                 this.transitionClassName = transitionClassName;
-            } else if (this.transitionClassName != transitionClassName) {
+            } else if (this.transitionClassName !== transitionClassName) {
                 this.element.classList.replace(this.transitionClassName, transitionClassName);
                 this.transitionClassName = transitionClassName;
             }
