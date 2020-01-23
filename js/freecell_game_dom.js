@@ -191,10 +191,17 @@ const createFreecellGameDOM = (function () {
         function updateCardPosition(transitionClassName) {
             const i = this.line;
             if (i >= 0) {
+                const count = game.numberOfCardsAt(i);
+                const left = toPercent(layout.getCardX(i, this.index, count), layout.width);
+                const top = toPercent(layout.getCardY(i, this.index, count), layout.height);
+                
                 const style = this.element.style;
-
-                style.left = toPercent(layout.getCardX(i), layout.width);
-                style.top = toPercent(layout.getCardY(i), layout.height);
+                if (style.left !== left) {
+                    style.left = left;
+                }
+                if (style.top !== top) {
+                    style.top = top;
+                }
             }
 
             if (!this.transitionClassName) {
