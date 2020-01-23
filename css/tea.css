@@ -22,9 +22,11 @@
 
 .column.middle > *, section > * {
   width: 95%;
+  /*
   margin-left: 2.5%;
   margin-right: 2.5%;
   margin-bottom: 0.5em;
+  */
 }
 
 .column.middle > section {
