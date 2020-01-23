@@ -463,7 +463,8 @@ const createFreecellGame = (function () {
             const index = history.current;
             const item = history.currentItem;
             
-            let from = to = '-1';
+            let from = '';
+            let to = '';
             if (game.isPile(item.to)) {
                 to = 'pile ' + (item.to - game.PILE_START);
             }
