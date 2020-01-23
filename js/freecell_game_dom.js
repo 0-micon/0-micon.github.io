@@ -3,10 +3,10 @@ const createFreecellGameDOM = (function () {
     function toPercent(numerator, denominator) {
         return (numerator * 100 / denominator).toFixed(3) + '%';
     }
-    function getBackgroundPosition(index, cx, cy, units) {
+    function getBackgroundPosition(index) {
         const col = index % 8;
         const row = Math.floor(index / 8);
-        return (-cx * col) + units + ' ' + (-cy * row) + units;
+        return toPercent(col, 8 - 1) + ' ' + toPercent(row, 8 - 1);
     }
     
     function forEachElement(children, from, to, callback) {
@@ -39,16 +39,20 @@ const createFreecellGameDOM = (function () {
         style.height = cy + units;
     }
 
-    function createCards(parent, count, x, y, cx, cy, units) {
+    function createCards(parent, count, x, y, cx, cy) {
         const cards = new Array(count);
         for (let i = 0; i < count; i++) {
             const element = document.createElement('div');
             element.classList.add('card', Cards.suitFullNameOf(i));
             element.id = 'm_card_' + i;
             element.style.position = 'absolute';
-            element.style.backgroundPosition = getBackgroundPosition(i, cx, cy, units);
-
-            positionElement(element, x, y, cx, cy, units);
+            element.style.backgroundPosition = getBackgroundPosition(i);
+            
+            //positionElement(element, x, y, cx, cy, units);
+            element.style.top = x;
+            element.style.left = y;
+            element.style.width = cx;
+            element.style.height = cy;
 
             parent.appendChild(element);
             cards[i] = { element: element, line: -1, index: -1 };
@@ -207,7 +211,9 @@ const createFreecellGameDOM = (function () {
         }
 
         let dragger = null;
-        const cards = createCards(parent, game.CARD_NUM, 0, 0, CX, CY, UNITS);
+        const cards = createCards(parent, game.CARD_NUM, 0, 0,
+                                 toPercent(layout.itemWidth, layout.width),
+                                 toPercent(layout.itemHeight, layout.height));
 
         function getMoveTo(playCardElement, xDestination, yDestination) {
             let source = -1;
