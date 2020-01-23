@@ -44,7 +44,7 @@ function createFreecellLayout(basis: FreecellBasis, dx = 1, dy = 1, cx = 2, cy =
   const pileEndY = pileStartY + 5 * cy;
 
   const width = Math.max(baseEndX, cellEndX, pileEndX);
-  const height = Math.max(baseEndY, cellEndY, pileEndY) + dy;
+  const height = Math.max(baseEndY, cellEndY, pileEndY) + cy + dy;
 
   function linearTransition(start: number, end: number, ratio: number): number {
     return start + (end - start) * ratio;
