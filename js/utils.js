@@ -17,7 +17,7 @@ function createFreecellLayout(basis, dx, dy, cx, cy) {
     var pileStartY = cellEndY + dy;
     var pileEndY = pileStartY + 5 * cy;
     var width = Math.max(baseEndX, cellEndX, pileEndX);
-    var height = Math.max(baseEndY, cellEndY, pileEndY) + dy;
+    var height = Math.max(baseEndY, cellEndY, pileEndY) + dy + cy;
     function linearTransition(start, end, ratio) {
         return start + (end - start) * ratio;
     }
