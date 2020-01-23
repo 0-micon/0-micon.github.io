@@ -357,8 +357,23 @@ const createFreecellGameDOM = (function () {
                 }
             });
             element.style.zIndex = game.CARD_NUM;
+            
+            // Update positions:
+            const transition = autoplay.ended ? TRANSITION_NORM : TRANSITION_FAST;
+            if (event.source >= 0) {
+                const count = game.numberOfCardsAt(event.source);
+                for (let j = 0; j < count; j++) {
+                  cards[game.cardAt(event.source, j)].updatePosition(transition);
+                }
+            }
+            if (event.destination >= 0) {
+                const count = game.numberOfCardsAt(event.destination);
+                for (let j = 0; j < count; j++) {
+                  cards[game.cardAt(event.destination, j)].updatePosition(transition);
+                }
+            }
 
-            card.updatePosition(autoplay.ended ? TRANSITION_NORM : TRANSITION_FAST);
+            // card.updatePosition(transition);
         });
 
         return game;
