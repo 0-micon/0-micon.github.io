@@ -15,7 +15,8 @@ var SoundManager;
         Resources[Resources["aplause_005"] = 7] = "aplause_005";
         Resources[Resources["aplause_006"] = 8] = "aplause_006";
         Resources[Resources["aplause_007"] = 9] = "aplause_007";
-        Resources[Resources["length"] = 10] = "length";
+        Resources[Resources["aplause_008"] = 10] = "aplause_008";
+        Resources[Resources["length"] = 11] = "length";
     })(Resources || (Resources = {}));
     SoundManager.playCard = SoundManager.playDeal = SoundManager.playShuffle = SoundManager.playVictory = function () {
         console.log("Audio is not ready!");
@@ -80,7 +81,7 @@ var SoundManager;
             };
             SoundManager.playVictory = function () {
                 var minValue = Resources.aplause_001;
-                var maxValue = Resources.aplause_007;
+                var maxValue = Resources.aplause_008;
                 var time = context.currentTime;
                 for (var i = 0, count = MathUtils.randomIneger(1, 4) ; i < count; i++) {
                     var source = makeSource(destination, buffers[MathUtils.randomIneger(minValue, maxValue + 1)], MathUtils.randomNumber(0.75, 1.75), randomPan());
