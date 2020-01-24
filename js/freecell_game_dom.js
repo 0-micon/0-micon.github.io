@@ -323,6 +323,15 @@ const createFreecellGameDOM = (function () {
                 }
             }
         });
+        
+        function updatePositions(line, transition) {
+            if (line >= 0) {
+                const count = game.numberOfCardsAt(line);
+                for (let index = 0; index < count; index++) {
+                    cards[game.cardAt(line, index)].updatePosition(transition);
+                }
+            }
+        }
 
         game.addOnMoveListener(function (event) {
             const card = cards[event.card];
@@ -342,20 +351,8 @@ const createFreecellGameDOM = (function () {
             
             // Update positions:
             const transition = autoplay.ended ? TRANSITION_NORM : TRANSITION_FAST;
-            if (event.source >= 0) {
-                const count = game.numberOfCardsAt(event.source);
-                for (let j = 0; j < count; j++) {
-                  cards[game.cardAt(event.source, j)].updatePosition(transition);
-                }
-            }
-            if (event.destination >= 0) {
-                const count = game.numberOfCardsAt(event.destination);
-                for (let j = 0; j < count; j++) {
-                  cards[game.cardAt(event.destination, j)].updatePosition(transition);
-                }
-            }
-
-            // card.updatePosition(transition);
+            updatePositions(event.source, transition);
+            updatePositions(event.destination, transition);            
         });
 
         return game;
