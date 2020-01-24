@@ -15,9 +15,9 @@ function createFreecellLayout(basis, dx, dy, cx, cy) {
     var pileStartX = dx;
     var pileEndX = pileStartX + basis.PILE_NUM * (cx + dx);
     var pileStartY = cellEndY + dy;
-    var pileEndY = pileStartY + 5 * cy;
+    var pileEndY = pileStartY + 4 * cy;
     var width = Math.max(baseEndX, cellEndX, pileEndX);
-    var height = Math.max(baseEndY, cellEndY, pileEndY) + dy + cy;
+    var height = Math.max(baseEndY, cellEndY, pileEndY) + dy;
     function linearTransition(start, end, ratio) {
         return start + (end - start) * ratio;
     }
@@ -81,7 +81,7 @@ function createFreecellLayout(basis, dx, dy, cx, cy) {
             }
             if (basis.isPile(spotIndex)) {
                 var y = this.getPileY(spotIndex - basis.PILE_START);
-                var h = this.pileEndY - this.pileStartY;
+                var h = this.pileEndY - this.pileStartY - this.itemHeight;
                 if (cardCount > 0) {
                     var dh = Math.min(h / cardCount, dy);
                     return linearTransition(y, y + dh * cardCount, cardIndex / cardCount);
