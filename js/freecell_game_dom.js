@@ -30,15 +30,6 @@ const createFreecellGameDOM = (function () {
         return children;
     }
 
-    function positionElement(element, x, y, cx, cy, units) {
-        const style = element.style;
-
-        style.top = x + units;
-        style.left = y + units;
-        style.width = cx + units;
-        style.height = cy + units;
-    }
-
     function createCards(parent, count, x, y, cx, cy) {
         const cards = new Array(count);
         for (let i = 0; i < count; i++) {
@@ -48,7 +39,6 @@ const createFreecellGameDOM = (function () {
             element.style.position = 'absolute';
             element.style.backgroundPosition = getBackgroundPosition(i);
             
-            //positionElement(element, x, y, cx, cy, units);
             element.style.top = x;
             element.style.left = y;
             element.style.width = cx;
@@ -138,25 +128,18 @@ const createFreecellGameDOM = (function () {
         // Autoplay object
         const autoplay = createAutoplay(game, 250);
 
-        const UNITS = "em";
         /*
          * The most common sizes:
          * 1. poker size (2.5 × 3.5 inches (64 × 89 mm);
          * 2. bridge size (2.25 × 3.5 inches (57 × 89 mm);
          */
-        const CX = 2.5,
-          CY = 3.5,
-          DX = 1, // 0.25 * CX,
-          DY = 1, // 0.25 * CY,
-          PLAY_CX = Math.max(game.CELL_NUM + game.BASE_NUM, game.PILE_NUM) * (CX + DX) + DX,
-          PLAY_CY = 8 * CY,
+        const
           TRANSITION_DEAL = 'transition_deal',
           TRANSITION_NORM = 'transition_norm',
           TRANSITION_FAST = 'transition_fast';
 
         // Style the parent:
         parent.style.position = "relative";
-        positionElement(parent, 0, 0, PLAY_CX, PLAY_CY, UNITS);
 
         // Create and position placeholders:
         const placeholders = createPlaceholders(parent, game.DESK_SIZE,
