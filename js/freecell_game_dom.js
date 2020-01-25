@@ -1,8 +1,7 @@
 const createFreecellGameDOM = (function () {
     // Helpers:
-    function toPercent(numerator, denominator) {
-        return (numerator * 100 / denominator).toFixed(3) + '%';
-    }
+    const toPercent = MathUtils.toPercent;
+    
     function getBackgroundPosition(index) {
         const col = index % 8;
         const row = Math.floor(index / 8);
