@@ -496,6 +496,20 @@ const createFreecellGame = (function () {
             }
         };
 
+        const layout = game.dom.layout;
+        if (!gui.undo) {
+            const btn = document.createElement('button');
+            btn.innerText = 'UNDO';
+            
+            btn.style.position = 'absolute';
+            btn.style.top = 0;
+            btn.style.left = MathUtils.toPercent(3 * layout.deltaWidth + 2 * layout.itemWidth, layout.width);
+            btn.style.width = MathUtils.toPercent(layout.itemWidth, layout.width);
+            btn.style.height = MathUtils.toPercent(3 * layout.deltaHeight / 4, layout.height);
+            
+            gui.undo = btn;
+            game.dom.parent.appendChild(btn);
+        }
         if (gui.undo) {
             gui.undo.onclick = function () {
                 if (history.current >= 0) {
