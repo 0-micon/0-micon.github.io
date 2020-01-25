@@ -353,6 +353,15 @@ const createFreecellGameDOM = (function () {
             updatePositions(event.source, transition);
             updatePositions(event.destination, transition);            
         });
+        
+        // expose the dom object
+        game.dom = {
+            autoplay: autoplay,
+            cards: cards,
+            layout: layout,
+            parent: parent,
+            placeholders: placeholders           
+        };
 
         return game;
     }
