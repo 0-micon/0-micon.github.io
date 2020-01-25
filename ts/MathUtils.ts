@@ -1,7 +1,11 @@
+
 namespace MathUtils {
-/*\
- * Returns a random number between minValue (inclusive) and maxValue (exclusive)
-\*/
+  export function toPercent(numerator: number, denominator: number = 100, fractionDigits: number = 3): string {
+    return (numerator * 100 / denominator).toFixed(fractionDigits) + '%';
+  }
+  /**
+   * Returns a random number between minValue (inclusive) and maxValue (exclusive)
+   */
   export function randomNumber(minValue: number, maxValue: number): number {
     return Math.random() * (maxValue - minValue) + minValue;
   }
@@ -36,13 +40,13 @@ namespace MathUtils {
   export function byteAt(str: string, index: number): number {
     return codeToByte(str.charCodeAt(index));
   }
-  
+
   export function stringToByteArray(str: string): number[] {
     const arr: number[] = [];
     for (let i = 0; i < str.length; i++) {
       arr.push(codeToByte(str.charCodeAt(i)));
     }
     return arr;
-  } 
+  }
 
 }
