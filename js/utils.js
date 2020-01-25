@@ -96,9 +96,15 @@ function createFreecellLayout(basis, dx, dy, cx, cy) {
 }
 var MathUtils;
 (function (MathUtils) {
-    /*\
+    function toPercent(numerator, denominator, fractionDigits) {
+        if (denominator === void 0) { denominator = 100; }
+        if (fractionDigits === void 0) { fractionDigits = 3; }
+        return (numerator * 100 / denominator).toFixed(fractionDigits) + '%';
+    }
+    MathUtils.toPercent = toPercent;
+    /**
      * Returns a random number between minValue (inclusive) and maxValue (exclusive)
-    \*/
+     */
     function randomNumber(minValue, maxValue) {
         return Math.random() * (maxValue - minValue) + minValue;
     }
