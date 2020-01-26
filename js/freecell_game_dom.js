@@ -377,6 +377,19 @@ const createFreecellGame = (function () {
             }
         }
     }
+    
+    function createButton(text, x, y, cx, cy) {
+        const btn = document.createElement('button');
+        btn.innerText = text;
+        
+        btn.style.position = 'absolute';
+        btn.style.left = x;
+        btn.style.top = y;
+        btn.style.width = cx;
+        btn.style.height = cy;
+        
+        return btn;
+    }
 
     function createFreecellHistory(parent) {
         const history = newHistory();
@@ -497,55 +510,58 @@ const createFreecellGame = (function () {
         };
 
         const layout = game.dom.layout;
-        if (!gui.undo) {
-            const btn = document.createElement('button');
-            btn.innerText = 'UNDO';
-            
-            btn.style.position = 'absolute';
-            btn.style.top = 0;
-            btn.style.left = MathUtils.toPercent(3 * layout.deltaWidth + 2 * layout.itemWidth, layout.width);
-            btn.style.width = MathUtils.toPercent(layout.itemWidth, layout.width);
-            btn.style.height = MathUtils.toPercent(3 * layout.deltaHeight / 4, layout.height);
-            
-            gui.undo = btn;
-            game.dom.parent.appendChild(btn);
+        const btnWidth = MathUtils.toPercent(2 * layout.itemWidth + layout.deltaWidth, layout.width);
+        const btnHeight = MathUtils.toPercent(3 * layout.deltaHeight / 4, layout.height);
+        function btnX(index) {
+            const x = layout.deltaWidth + 2 * (layout.itemWidth + layout.deltaWidth) * index;
+            return MathUtils.toPercent(x, layout.width);
         }
-        if (gui.undo) {
-            gui.undo.onclick = function () {
-                if (history.current >= 0) {
-                    const item = history.currentItem;
-                    game.moveCard(item.to, item.from);
-                }
-            };
-        }
+        const btnY = MathUtils.toPercent(0, layout.height);
         
-        if (gui.redo) {
-            gui.redo.onclick = function () {
-                if (history.total > history.length) {
-                    const next = history.forwardItem;
-                    game.moveCard(next.from, next.to);
+        if (!gui.deal) {
+            gui.deal = createButton('DEAL', btnX(0), btnY, btnWidth, btnHeight);
+            game.dom.parent.appendChild(gui.deal);
+        }
+        gui.deal.onclick = function () {
+            game.deal(Math.floor(Math.random() * 0x80000000));
+        };
+        
+        if (!gui.undo) {
+            gui.undo = createButton('UNDO', btnX(1), btnY, btnWidth, btnHeight);
+            game.dom.parent.appendChild(gui.undo);
+        }
+        gui.undo.onclick = function () {
+            if (history.current >= 0) {
+                const item = history.currentItem;
+                game.moveCard(item.to, item.from);
+            }
+        };
+        
+        if (!gui.redo) {
+            gui.redo = createButton('REDO', btnX(2), btnY, btnWidth, btnHeight);
+            game.dom.parent.appendChild(gui.redo);
+        }
+        gui.redo.onclick = function () {
+            if (history.total > history.length) {
+                const next = history.forwardItem;
+                game.moveCard(next.from, next.to);
+            }
+        };
+        
+        if (!gui.auto) {
+            gui.auto = createButton('AUTO', btnX(3), btnY, btnWidth, btnHeight);
+            game.dom.parent.appendChild(gui.auto);
+        }
+        gui.auto.onclick = function onclick() {
+            game.forEachMove(function (source, destination) {
+                if (game.isBase(destination)) {
+                    // Move one card at a time.
+                    game.moveCard(source, destination);
+                    setTimeout(onclick, 250);
+                    return true;    // Skip other moves.
                 }
-            };
-        }
-
-        if (gui.deal) {
-            gui.deal.onclick = function () {
-                game.deal(Math.floor(Math.random() * 0x80000000));
-            };
-        }
-
-        if (gui.auto) {
-            gui.auto.onclick = function onclick() {
-                game.forEachMove(function (source, destination) {
-                    if (game.isBase(destination)) {
-                        // Move one card at a time.
-                        game.moveCard(source, destination);
-                        setTimeout(onclick, 250);
-                        return true;    // Skip other moves.
-                    }
-                });
-            };
-        }
+            });
+        };
 
         function updateButtons() {
             if (gui.auto) {
@@ -597,6 +613,7 @@ const createFreecellGame = (function () {
             updateButtons();
         });
 
+        updateButtons();
         return game;
     }
 })();
