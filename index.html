@@ -36,12 +36,14 @@
         <div class="game-col-main">
           <section id="m_game">
           </section>
+          <!--
           <section class="game-buttons">
             <button id="m_deal">Deal</button>
             <button id="m_auto" disabled>Auto</button>
             <button id="m_undo" disabled>Undo</button>
             <button id="m_redo" disabled>Redo</button>
           </section>
+          -->
         </div>
         <div class="game-col">
           <section class="game-history">
@@ -75,10 +77,10 @@
 
     const freecell = createFreecellGame(8, 4, 4, {
       parent: m_game,
-      deal: m_deal,
-      auto: m_auto,
+      // deal: m_deal,
+      // auto: m_auto,
       // undo: m_undo,
-      redo: m_redo,
+      // redo: m_redo,
       history: m_history
     });
     
