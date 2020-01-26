@@ -29,6 +29,16 @@
     background-color: transparent;
 }
 
+#m_game button:active {
+    color: #ffffa0;
+    background-color: #929292e0;
+}
+
+#m_game button:enabled:hover {
+    color: #ffffb0;
+    background-color: #888888dd;
+}
+
 .placeholder {
     background-color:darkslateblue;
     background-image: url('/resources/svg/cards.svg');
