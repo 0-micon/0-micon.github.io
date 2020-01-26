@@ -130,37 +130,6 @@ section {
     /*opacity: 0.95;*/
 }
 
-/* Small devices (landscape phones, 576px and up) */
-@media (min-width: 576px) {
-    #m_game {
-        /*font-size: 12px;*/
-    }
-}
-
-/* Medium devices (tablets, 768px and up) */
-@media (min-width: 768px) {
-    #m_game button {
-        font-size: 14px;
-    }
-}
-
-/* Large devices (desktops, 992px and up) */
-@media (min-width: 992px) {
-    #m_game button {
-        font-size: 18px;
-    }
-}
-
-/* Extra large devices (large desktops, 1200px and up) */
-@media (min-width: 1200px) {
-    #m_game button {
-        font-size: 22px;
-    }
-    .card {
-        box-shadow: 2px 2px 4px black;
-    }
-}
-
 .danger-very-low {
     background-color: #BBEE90;
 }
@@ -202,16 +171,16 @@ section {
   display: flex;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
-  margin-right: -15px;
-  margin-left: -15px;
+  margin-right: -1%;
+  margin-left: -1%;
 }
 
 .game-col, .game-col-main {
   position: relative;
   width: 100%;
   min-height: 1px;
-  padding-right: 15px;
-  padding-left: 15px;
+  padding-right: 1%;
+  padding-left: 1%;
 }
 
 .game-col {
@@ -223,7 +192,60 @@ section {
 }
 
 .game-col-main {
-    -ms-flex: 0 0 66.666667%;
-    flex: 0 0 66.666667%;
-    max-width: 66.666667%;
+    -ms-flex: 0 0 100%;
+    flex: 0 0 100%;
+    max-width: 100%;
+}
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) {
+    #m_game {
+        /*font-size: 12px;*/
+    }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+    #m_game button {
+        font-size: 14px;
+    }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+    #m_game button {
+        font-size: 18px;
+    }
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+    #m_game button {
+        font-size: 22px;
+    }
+    .card {
+        box-shadow: 2px 2px 4px black;
+    }
+    .game-col-main {
+        -ms-flex: 0 0 60%;
+        flex: 0 0 60%;
+        max-width: 60%;
+    }
+    .game-row {
+      display: -ms-flexbox;
+      display: flex;
+      -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+      margin-right: -2%;
+      margin-left: -2%;
+    }
+
+    .game-col, .game-col-main {
+      position: relative;
+      width: 100%;
+      min-height: 1px;
+      padding-right: 2%;
+      padding-left: 2%;
+    }
+
 }
