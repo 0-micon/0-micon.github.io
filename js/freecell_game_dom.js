@@ -193,9 +193,11 @@ const createFreecellGameDOM = (function () {
         }
 
         let dragger = null;
-        const cards = createCards(parent, game.CARD_NUM, 0, 0,
-                                 toPercent(layout.itemWidth, layout.width),
-                                 toPercent(layout.itemHeight, layout.height));
+        const cards = createCards(parent, game.CARD_NUM,
+                                  toPercent(layout.width - layout.itemWidth, layout.width),
+                                  toPercent(layout.height - layout.itemHeight, layout.height),
+                                  toPercent(layout.itemWidth, layout.width),
+                                  toPercent(layout.itemHeight, layout.height));
 
         function getMoveTo(playCardElement, xDestination, yDestination) {
             let source = -1;
