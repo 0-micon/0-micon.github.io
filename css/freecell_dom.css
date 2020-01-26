@@ -249,3 +249,21 @@ section {
     }
 
 }
+
+@media (min-aspect-ratio: 14/8) {
+    #m_game {
+        padding-top: 57%;
+    }
+}
+
+@media (min-aspect-ratio: 16/8) {
+    #m_game {
+        padding-top: 49%;
+    }
+}
+
+@media (min-aspect-ratio: 24/8) {
+    #m_game {
+        padding-top: 45%;
+    }
+}
