@@ -12,6 +12,23 @@
     background-size: auto;
 }
 
+#m_game button {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 10px;
+    
+    background-color: #808080aa;
+    border: 2px solid lightgoldenrodyellow;
+    border-radius: 0.6em;
+    color: lightyellow;
+    cursor: pointer;
+}
+
+#m_game button:disabled {
+    color: darkgrey;
+    background-color: transparent;
+}
+
 .placeholder {
     background-color:darkslateblue;
     background-image: url('/resources/svg/cards.svg');
@@ -112,22 +129,22 @@ section {
 
 /* Medium devices (tablets, 768px and up) */
 @media (min-width: 768px) {
-    #m_game {
-        /*font-size: 14px;*/
+    #m_game button {
+        font-size: 14px;
     }
 }
 
 /* Large devices (desktops, 992px and up) */
 @media (min-width: 992px) {
-    #m_game {
-        /*font-size: 18px;*/
+    #m_game button {
+        font-size: 18px;
     }
 }
 
 /* Extra large devices (large desktops, 1200px and up) */
 @media (min-width: 1200px) {
-    #m_game {
-        /*font-size: 32px;*/
+    #m_game button {
+        font-size: 22px;
     }
     .card {
         box-shadow: 2px 2px 4px black;
