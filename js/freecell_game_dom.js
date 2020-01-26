@@ -38,8 +38,8 @@ const createFreecellGameDOM = (function () {
             element.style.position = 'absolute';
             element.style.backgroundPosition = getBackgroundPosition(i);
             
-            element.style.top = x;
-            element.style.left = y;
+            element.style.left = x;
+            element.style.top = y;
             element.style.width = cx;
             element.style.height = cy;
 
@@ -194,8 +194,8 @@ const createFreecellGameDOM = (function () {
 
         let dragger = null;
         const cards = createCards(parent, game.CARD_NUM,
-                                  toPercent(layout.width - layout.itemWidth, layout.width),
-                                  toPercent(layout.height - layout.itemHeight, layout.height),
+                                  toPercent(layout.width - layout.deltaWidth - layout.itemWidth, layout.width),
+                                  toPercent(layout.height - layout.deltaHeight - layout.itemHeight, layout.height),
                                   toPercent(layout.itemWidth, layout.width),
                                   toPercent(layout.itemHeight, layout.height));
 
