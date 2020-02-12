@@ -512,13 +512,16 @@ const createFreecellGame = (function () {
         };
 
         const layout = game.dom.layout;
-        const btnWidth = MathUtils.toPercent(2 * layout.itemWidth + layout.deltaWidth, layout.width);
-        const btnHeight = MathUtils.toPercent(3 * layout.deltaHeight / 4, layout.height);
+        const W = layout.width;
+        const H = layout.height;
+        const btnWidth = MathUtils.toPercent(2 * layout.itemWidth + layout.deltaWidth, W);
+        const btnHeight = MathUtils.toPercent(3 * layout.deltaHeight / 4, H);
+        
         function btnX(index) {
             const x = layout.deltaWidth + 2 * (layout.itemWidth + layout.deltaWidth) * index;
-            return MathUtils.toPercent(x, layout.width);
+            return MathUtils.toPercent(x, W);
         }
-        const btnY = MathUtils.toPercent(0, layout.height);
+        const btnY = MathUtils.toPercent(0, H);
         
         if (!gui.deal) {
             gui.deal = createButton('DEAL', btnX(0), btnY, btnWidth, btnHeight);
@@ -529,7 +532,8 @@ const createFreecellGame = (function () {
         };
         
         if (!gui.undo) {
-            gui.undo = createButton('UNDO', btnX(1), btnY, btnWidth, btnHeight);
+            const w = parseFloat(btnWidth);
+            gui.undo = createButton('UNDO', btnX(1), btnY, MathUtils.toPercent(3 * w, 4), btnHeight);
             game.dom.parent.appendChild(gui.undo);
         }
         gui.undo.onclick = function () {
