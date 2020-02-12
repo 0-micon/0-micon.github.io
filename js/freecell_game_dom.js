@@ -532,8 +532,7 @@ const createFreecellGame = (function () {
         };
         
         if (!gui.undo) {
-            const w = parseFloat(btnWidth);
-            gui.undo = createButton('UNDO', btnX(1), btnY, 3 * w / 4, btnH);
+            gui.undo = createButton('UNDO', btnX(1), btnY, 3 * btnW / 4, btnH);
             game.dom.parent.appendChild(gui.undo);
         }
         gui.undo.onclick = function () {
@@ -541,6 +540,13 @@ const createFreecellGame = (function () {
                 const item = history.currentItem;
                 game.moveCard(item.to, item.from);
             }
+        };
+        if (!gui.prev) {
+            gui.prev = createButton('', btnX(1) + 3 * btnW / 4, btnY, btnW / 4, btnH);
+            game.dom.parent.appendChild(gui.prev);
+        }
+        gui.prev.onclick = function () {
+            console.log('onclick PREV');
         };
         
         if (!gui.redo) {
