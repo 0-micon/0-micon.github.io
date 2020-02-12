@@ -533,6 +533,7 @@ const createFreecellGame = (function () {
         
         if (!gui.undo) {
             gui.undo = createButton('UNDO', btnX(1), btnY, 3 * btnW / 4, btnH);
+            gui.undo.classList.add("btn-left");
             game.dom.parent.appendChild(gui.undo);
         }
         gui.undo.onclick = function () {
@@ -543,6 +544,7 @@ const createFreecellGame = (function () {
         };
         if (!gui.prev) {
             gui.prev = createButton('', btnX(1) + 3 * btnW / 4, btnY, btnW / 4, btnH);
+            gui.prev.classList.add("btn-right");
             game.dom.parent.appendChild(gui.prev);
         }
         gui.prev.onclick = function () {
@@ -550,7 +552,8 @@ const createFreecellGame = (function () {
         };
         
         if (!gui.redo) {
-            gui.redo = createButton('REDO', btnX(2), btnY, btnW, btnH);
+            gui.redo = createButton('REDO', btnX(2), btnY, 3 * btnW / 4, btnH);
+            gui.redo.classList.add("btn-left");
             game.dom.parent.appendChild(gui.redo);
         }
         gui.redo.onclick = function () {
@@ -558,6 +561,14 @@ const createFreecellGame = (function () {
                 const next = history.forwardItem;
                 game.moveCard(next.from, next.to);
             }
+        };
+        if (!gui.next) {
+            gui.next = createButton('', btnX(2) + 3 * btnW / 4, btnY, btnW / 4, btnH);
+            gui.next.classList.add("btn-right");
+            game.dom.parent.appendChild(gui.next);
+        }
+        gui.next.onclick = function () {
+            console.log('onclick NEXT');
         };
         
         if (!gui.auto) {
