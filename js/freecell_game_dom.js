@@ -601,9 +601,15 @@ const createFreecellGame = (function () {
             if (gui.undo) {
                 enableButton(gui.undo, history.current >= 0);
             }
+            if (gui.prev) {
+                enableButton(gui.prev, history.current >= 0);
+            }
 
             if (gui.redo) {
                 enableButton(gui.redo, history.total > history.length);
+            }
+            if (gui.next) {
+                enableButton(gui.next, history.total > history.length);
             }
         }
 
