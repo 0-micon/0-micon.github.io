@@ -533,7 +533,7 @@ const createFreecellGame = (function () {
         
         if (!gui.undo) {
             const w = parseFloat(btnWidth);
-            gui.undo = createButton('UNDO', btnX(1), btnY, MathUtils.toPercent(3 * w, 4), btnHeight);
+            gui.undo = createButton('UNDO', btnX(1), btnY, MathUtils.toPercent(3 * w, 400), btnHeight);
             game.dom.parent.appendChild(gui.undo);
         }
         gui.undo.onclick = function () {
