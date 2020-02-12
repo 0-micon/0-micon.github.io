@@ -379,19 +379,6 @@ const createFreecellGame = (function () {
             }
         }
     }
-    
-    function createButton(text, x, y, cx, cy) {
-        const btn = document.createElement('button');
-        btn.innerText = text;
-        
-        btn.style.position = 'absolute';
-        btn.style.left = x;
-        btn.style.top = y;
-        btn.style.width = cx;
-        btn.style.height = cy;
-        
-        return btn;
-    }
 
     function createFreecellHistory(parent) {
         const history = newHistory();
@@ -514,17 +501,30 @@ const createFreecellGame = (function () {
         const layout = game.dom.layout;
         const W = layout.width;
         const H = layout.height;
-        const btnWidth = MathUtils.toPercent(2 * layout.itemWidth + layout.deltaWidth, W);
-        const btnHeight = MathUtils.toPercent(3 * layout.deltaHeight / 4, H);
+        
+        function createButton(text, x, y, cx, cy) {
+            const btn = document.createElement('button');
+            btn.innerText = text;
+        
+            btn.style.position = 'absolute';
+            btn.style.left = MathUtils.toPercent(x, W);
+            btn.style.top = MathUtils.toPercent(y, H);
+            btn.style.width = MathUtils.toPercent(cx, W);
+            btn.style.height = MathUtils.toPercent(cy, H);
+        
+            return btn;
+        }
+        
+        const btnW = 2 * layout.itemWidth + layout.deltaWidth;
+        const btnH = 3 * layout.deltaHeight / 4;
         
         function btnX(index) {
-            const x = layout.deltaWidth + 2 * (layout.itemWidth + layout.deltaWidth) * index;
-            return MathUtils.toPercent(x, W);
+            return layout.deltaWidth + 2 * (layout.itemWidth + layout.deltaWidth) * index;
         }
-        const btnY = MathUtils.toPercent(0, H);
+        const btnY = 0;
         
         if (!gui.deal) {
-            gui.deal = createButton('DEAL', btnX(0), btnY, btnWidth, btnHeight);
+            gui.deal = createButton('DEAL', btnX(0), btnY, btnW, btnH);
             game.dom.parent.appendChild(gui.deal);
         }
         gui.deal.onclick = function () {
@@ -533,7 +533,7 @@ const createFreecellGame = (function () {
         
         if (!gui.undo) {
             const w = parseFloat(btnWidth);
-            gui.undo = createButton('UNDO', btnX(1), btnY, MathUtils.toPercent(3 * w, 400), btnHeight);
+            gui.undo = createButton('UNDO', btnX(1), btnY, 3 * w / 4, btnH);
             game.dom.parent.appendChild(gui.undo);
         }
         gui.undo.onclick = function () {
@@ -544,7 +544,7 @@ const createFreecellGame = (function () {
         };
         
         if (!gui.redo) {
-            gui.redo = createButton('REDO', btnX(2), btnY, btnWidth, btnHeight);
+            gui.redo = createButton('REDO', btnX(2), btnY, btnW, btnH);
             game.dom.parent.appendChild(gui.redo);
         }
         gui.redo.onclick = function () {
@@ -555,7 +555,7 @@ const createFreecellGame = (function () {
         };
         
         if (!gui.auto) {
-            gui.auto = createButton('AUTO', btnX(3), btnY, btnWidth, btnHeight);
+            gui.auto = createButton('AUTO', btnX(3), btnY, btnW, btnH);
             game.dom.parent.appendChild(gui.auto);
         }
         gui.auto.onclick = function onclick() {
