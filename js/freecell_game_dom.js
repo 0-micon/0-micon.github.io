@@ -606,7 +606,7 @@ const createFreecellGame = (function () {
             }
 
             if (gui.redo) {
-                enableButton(gui.redo, game.history.mark < history.moves.length);
+                enableButton(gui.redo, game.history.mark < game.history.moves.length);
             }
             if (gui.next) {
                 enableButton(gui.next, history.total > history.length);
