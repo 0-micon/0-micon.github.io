@@ -5,6 +5,7 @@ function createFreecellManager(pileNum, cellNum, baseNum) {
 
     const moves = [];
     const queue = new EventQueue();
+    const history = new MoveHistory(queue);
 
     function getMoves() {
         moves.length = 0;
@@ -42,6 +43,8 @@ function createFreecellManager(pileNum, cellNum, baseNum) {
     }
 
     function deal(n) {
+        history.clear();
+        
         const cards = desk.deal(n);
         getMoves();
         
@@ -56,6 +59,8 @@ function createFreecellManager(pileNum, cellNum, baseNum) {
     }
 
     function moveCard(source, destination) {
+        history.move(source, destination);
+        
         desk.moveCard(source, destination);
         getMoves();
 
@@ -63,7 +68,8 @@ function createFreecellManager(pileNum, cellNum, baseNum) {
             name: 'move',
             card: desk.cardAt(destination, -1),
             source: source,
-            destination: destination
+            destination: destination,
+            history: history
         };
         queue.notifyAll(event);
     }
