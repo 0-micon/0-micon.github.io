@@ -404,3 +404,53 @@ var Dragger = /** @class */ (function () {
     }
     return Dragger;
 }());
+var MoveHistory = /** @class */ (function () {
+    function MoveHistory(queue) {
+        this.queue = queue;
+        this.moves = [];
+        this.mark = 0;
+    }
+    MoveHistory.prototype.clear = function () {
+        this.moves.length = 0;
+        this.mark = 0;
+        this.queue.notifyAll({ name: 'history-clear' });
+    };
+    // skip forward
+    MoveHistory.prototype.next = function () {
+        this.mark += 2;
+        this.queue.notifyAll({ name: 'history-forward', moves: __spreadArrays(this.moves), mark: this.mark });
+    };
+    // skip backward
+    MoveHistory.prototype.back = function () {
+        this.mark -= 2;
+        this.queue.notifyAll({ name: 'history-backward', moves: __spreadArrays(this.moves), mark: this.mark });
+    };
+    // drop out old moves
+    MoveHistory.prototype.drop = function () {
+        this.moves.splice(this.mark);
+        this.queue.notifyAll({ name: 'history-drop', moves: __spreadArrays(this.moves), mark: this.mark });
+    };
+    MoveHistory.prototype.append = function (source, destination) {
+        this.moves.push(source);
+        this.moves.push(destination);
+        this.mark = this.moves.length;
+        this.queue.notifyAll({ name: 'history-append', moves: __spreadArrays(this.moves), mark: this.mark });
+    };
+    MoveHistory.prototype.move = function (source, destination) {
+        var moves = this.moves;
+        var mark = this.mark;
+        if (moves.length - mark >= 2 && moves[mark] === source && moves[mark + 1] === destination) {
+            this.next();
+        }
+        else if (mark >= 2 && moves[mark - 1] === source && moves[mark - 2] === destination) {
+            this.back();
+        }
+        else {
+            if (mark < moves.length) {
+                this.drop();
+            }
+            this.append(source, destination);
+        }
+    };
+    return MoveHistory;
+}());
