@@ -315,6 +315,9 @@ function createFreecellManager(pileNum, cellNum, baseNum) {
     // Desk changing methods:
     basis.deal = deal;
     basis.moveCard = moveCard;
+    
+    // History
+    basis.history = history;
 
     // Event queue and Listeners:
     basis.queue = queue;
