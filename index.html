@@ -83,13 +83,11 @@
       // redo: m_redo,
       history: m_history
     });
-    
-    let moves = [];
-    let mark = 0;
+
     let deal = +getQuery('deal');
     if (!isNaN(deal)) {
       freecell.deal(deal);
-      moves = MathUtils.stringToByteArray(getQuery('moves', ''));
+      let moves = MathUtils.stringToByteArray(getQuery('moves', ''));
       for (let i = 0; i + 1 < moves.length; i+=2) {
         if (freecell.isMoveValid(moves[i], moves[i + 1])) {
           freecell.moveCard(moves[i], moves[i + 1]);
@@ -98,7 +96,7 @@
           break;
         }
       }
-      mark = +getQuery('mark');
+      let mark = +getQuery('mark');
       if (mark >= 0 && mark < moves.length) {
         for (let i = moves.length; i - 1 > mark; i-=2) {
           freecell.moveCard(moves[i - 1], moves[i - 2]); // move back
@@ -110,29 +108,11 @@
     
     freecell.addOnDealListener(function (event) {
       deal = event.deal;
-      moves = [];
-      mark = moves.length;
       history.pushState(null, null, "?deal=" + deal);
     });
     freecell.addOnMoveListener(function (event) {
-      if (moves.length - mark >= 2
-          && moves[mark] === event.source
-          && moves[mark + 1] === event.destination) {
-        mark += 2; // skip forward
-      } else if (mark >= 2
-                 && moves[mark - 1] === event.source
-                 && moves[mark - 2] === event.destination) {
-        mark -= 2; // skip backward
-      } else {
-        if (mark < moves.length) {
-          moves.splice(mark); // drop out old moves
-        }
-        
-        moves.push(event.source);
-        moves.push(event.destination);
-        mark = moves.length; // append
-      }
-     
+      let mark = event.history.mark;
+      let moves = event.history.moves;
       if (mark === moves.length) {
         history.pushState(null, null, "?deal=" + deal + '&moves=' + MathUtils.byteArrayToString(moves));
       } else {
@@ -140,7 +120,6 @@
                           + '&mark=' + mark);
       }
     });
-    
   </script>
   <script src="js/tea.min.js"></script>
   <script>
