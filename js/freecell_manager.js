@@ -43,10 +43,9 @@ function createFreecellManager(pileNum, cellNum, baseNum) {
     }
 
     function deal(n) {
-        history.clear();
-        
         const cards = desk.deal(n);
         getMoves();
+        history.clear();
         
         const event = {
             name: 'deal',
@@ -59,10 +58,9 @@ function createFreecellManager(pileNum, cellNum, baseNum) {
     }
 
     function moveCard(source, destination) {
-        history.move(source, destination);
-        
         desk.moveCard(source, destination);
         getMoves();
+        history.move(source, destination);
 
         const event = {
             name: 'move',
