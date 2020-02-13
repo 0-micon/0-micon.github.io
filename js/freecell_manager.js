@@ -310,7 +310,8 @@ function createFreecellManager(pileNum, cellNum, baseNum) {
     basis.deal = deal;
     basis.moveCard = moveCard;
 
-    // Listeners:
+    // Event queue and Listeners:
+    basis.queue = queue;
     basis.addOnDealListener = addOnDealListener;
     basis.addOnMoveListener = addOnMoveListener;
     basis.removeOnDealListener = removeOnDealListener;
