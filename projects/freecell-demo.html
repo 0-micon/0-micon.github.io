@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title></title>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" type="text/css" href="/css/freecell_dom.css" />
+</head>
+
+<body>
+<!--
+  <section class="main">
+    <section class="left"><section class="game"><section id="m_game"></section></section></section><section class="right"><section class="path"><ol id="m_history">History:</ol></section></section>
+  </section>
+-->
+  <div class="game-container">
+    <div class="game-row">
+      <div class="game-col-main">
+        <section id="m_game">
+        </section>
+        <section class="game-buttons">
+          <button id="m_deal">Deal</button>
+          <button id="m_auto" disabled>Auto</button>
+          <button id="m_undo" disabled>Undo</button>
+          <button id="m_redo" disabled>Redo</button>
+        </section>
+      </div>
+      <div class="game-col">
+        <section class="game-history">
+          <ol id="m_history">History:</ol>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/utils.js"></script>
+  <script src="/js/cards.js"></script>
+  <script src="/js/freecell_audio.js"></script>
+  <script src="/js/freecell_basis.js"></script>
+  <script src="/js/freecell_manager.js"></script>
+  <script src="/js/freecell_game_dom.js"></script>
+
+  <script>
+    "use strict";
+    function getQuery(key, defaultValue) {
+        var query = window.location.search.substring(1); // skip over '?' character
+        var split = query.split("&");
+        for (var i = 0; i < split.length; i++) {
+            var pair = split[i].split("=");
+            if (pair[0] === key) {
+                return pair[1];
+            }
+        }
+        return defaultValue;
+    }
+
+    const freecell = createFreecellGame(8, 4, 4, {
+      parent: m_game,
+      // deal: m_deal,
+      // auto: m_auto,
+      // undo: m_undo,
+      // redo: m_redo,
+      history: m_history
+    });
+
+    let deal = +getQuery('deal');
+    if (!isNaN(deal)) {
+      freecell.deal(deal);
+      let moves = MathUtils.stringToByteArray(getQuery('moves', ''));
+      for (let i = 0; i + 1 < moves.length; i+=2) {
+        if (freecell.isMoveValid(moves[i], moves[i + 1])) {
+          freecell.moveCard(moves[i], moves[i + 1]);
+        } else {
+          moves.splice(i); // drop out invalid moves
+          break;
+        }
+      }
+      let mark = +getQuery('mark');
+      if (mark >= 0 && mark < moves.length) {
+        for (let i = moves.length; i - 1 > mark; i-=2) {
+          freecell.moveCard(moves[i - 1], moves[i - 2]); // move back
+        }
+      } else {
+        mark = moves.length;
+      }
+    }
+    
+    freecell.addOnDealListener(function (event) {
+      deal = event.deal;
+      history.pushState(null, null, "?deal=" + deal);
+    });
+    freecell.addOnMoveListener(function (event) {
+      let mark = event.history.mark;
+      let moves = event.history.moves;
+      if (mark === moves.length) {
+        history.pushState(null, null, "?deal=" + deal + '&moves=' + MathUtils.byteArrayToString(moves));
+      } else {
+        history.pushState(null, null, "?deal=" + deal + '&moves=' + MathUtils.byteArrayToString(moves)
+                          + '&mark=' + mark);
+      }
+    });
+  </script> 
+</body>
+
+</html>
