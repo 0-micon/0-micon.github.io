@@ -9,7 +9,7 @@
 
 <body>
   <div class="container">
-    <form>
+    <form onsubmit="copy()">
     <section class="cyp">
       <div class="row">
         <textarea id="m_a_message" class="column side"></textarea>
@@ -33,7 +33,11 @@
     </section>
     </form>
    </div>
-  <script src="/js/utils.js"></script>
+  <script>
+    function copy() {
+      console.log('TODO: copy to clipboard');
+    }
+  </script>
   <script src="/js/tea.min.js"></script>
   <script>
     function chunks(str, len) {
