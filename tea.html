@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Tea Demo</title>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" type="text/css" href="css/tea.css" />
+</head>
+
+<body>
+  <div class="container">
+    <section class="cyp">
+      <div class="row">
+        <textarea id="m_a_message" class="column side"></textarea>
+        <div class="column middle" style="background-color:#bbb;">
+          <section class="pag">
+            <input type="password" id="m_word_a" />
+            <input type="password" id="m_word_b" />
+            <input type="number" id="m_start" />
+            <input type="number" id="m_end" />
+          </section>
+          <section class="tea">
+            <input type="password" id="m_key" />
+            <button id="m_a_process">&rarr;</button>
+            <button id="m_b_process">&larr;</button>
+          </section>
+        </div>
+        <input type="text" name="from-url" id="m_from_url_text">
+        <button id="m_from_url">load</button>
+        <textarea id="m_b_message" class="column side"></textarea>
+      </div>
+    </section>
+   </div>
+  <script src="js/utils.js"></script>
+  <script src="js/tea.min.js"></script>
+  <script>
+    function chunks(str, len) {
+      const arr = [];
+      for (let i = 0, j = str.length; i < j; i += len) {
+        arr.push(str.substring(i, i + len));
+      }
+      return arr;
+    }
+
+    m_a_process.onclick = function () {
+      const key = m_key.value;
+      if (key) {
+        const value = m_a_message.value;
+        if (value) {
+          m_b_message.value = chunks(
+            tea.ec(tea.ec(value, key), key.split("").reverse().join("")),
+            80).join('\n');
+        }
+      }
+    };
+
+    m_b_process.onclick = function () {
+      const key = m_key.value;
+      if (key) {
+        let value = m_b_message.value;
+        if (value) {
+          value = value.replace('\r', '');
+          value = value.replace('\n', '');
+          m_a_message.value = tea.dc(tea.dc(value, key.split("").reverse().join("")), key);
+        }
+      }
+    };
+  </script>
+  <script src="js/md5.min.js"></script>
+  <script>
+    m_start.oninput = m_end.oninput =
+      m_word_a.onchange = m_word_b.onchange = function () {
+        const i = +m_start.value || 0;
+        const j = +m_end.value || 0;
+        const wa = m_word_a.value || '';
+        const wb = m_word_b.value || '';
+        let b = btoa(md5(wa + '-' + wb + '\n'));
+
+        if (i > 0 && j > i) {
+          b = b.substring(i - 1, j);
+        }
+        m_key.value = b;
+      };
+  </script>
+  <script>
+    m_from_url.onclick = function () {
+      fetch(m_from_url_text.value)
+        .then(response => response.text())
+        .then(text => m_b_message.value = text);
+    };
+  </script>
+  
+</body>
+
+</html>
