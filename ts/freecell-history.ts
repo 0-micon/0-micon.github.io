@@ -1,6 +1,16 @@
 class FreecellHistory {
-  moves: number[] = [];
+  moves: { source: number, destination: number }[] = [];
+
+  // Marks the current position
   mark: number = 0;
+
+  get length() {
+    return this.moves.length;
+  }
+
+  get available() {
+    return this.moves.length - this.mark;
+  }
 
   clear() {
     this.moves.length = 0;
@@ -10,18 +20,25 @@ class FreecellHistory {
   move(source: number, destination: number) {
     const moves = this.moves;
     const mark = this.mark;
-    if (moves.length - mark >= 2 && moves[mark] === source && moves[mark + 1] === destination) {
-      this.mark += 2; // skip forward
-    } else if (mark >= 2 && moves[mark - 1] === source && moves[mark - 2] === destination) {
-      this.mark -= 2; // skip backward
+    if (moves.length > mark && moves[mark].source === source && moves[mark].destination === destination) {
+      this.mark += 1; // skip forward
+    } else if (mark > 0 && moves[mark - 1].source === source && moves[mark - 1].destination === destination) {
+      this.mark -= 1; // skip backward
     } else {
       if (mark < moves.length) {
         moves.splice(mark); // drop out old moves
       }
         
-      moves.push(source);
-      moves.push(destination);
+      moves.push({ source, destination });
       this.mark = moves.length; // append
     }
+  }
+
+  toNumberArray(): number[] {
+    return this.moves.reduce((a, v) => {
+      a.push(v.source);
+      a.push(v.destination);
+      return a;
+    }, [] as number[]);
   }
 }
