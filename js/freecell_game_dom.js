@@ -587,7 +587,7 @@ const createFreecellGame = (function () {
         };
         
         if (!gui.path) {
-            gui.path = createButton('', 0, 0.4 * btnH, 0.01 * btnW, 0.2 * btnH);
+            gui.path = createButton('', 0, 0.4 * W, 0.01 * W, 0.2 * H);
             gui.path.classList.add("btn-right");
             game.dom.parent.appendChild(gui.path);
         }
