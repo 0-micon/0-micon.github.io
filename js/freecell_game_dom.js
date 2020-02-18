@@ -639,8 +639,11 @@ const createFreecellGame = (function () {
             }
             
             const current = game.history.current;
-            if (current && !current.element) {
-                // TODO: create current element.
+            if (current) {
+                // Update current move info.
+                current.card = event.card;
+                current.emptyPileCount = game.emptyPileCount();
+                current.emptyCellCount = game.emptyCellCount();
             }
 
             history.moveCard(event.card, event.source, event.destination);
