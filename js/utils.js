@@ -404,53 +404,53 @@ var Dragger = /** @class */ (function () {
     }
     return Dragger;
 }());
-var MoveHistory = /** @class */ (function () {
-    function MoveHistory(queue) {
-        this.queue = queue;
+var FreecellHistory = /** @class */ (function () {
+    function FreecellHistory() {
         this.moves = [];
+        // Marks the current position
         this.mark = 0;
     }
-    MoveHistory.prototype.clear = function () {
+    Object.defineProperty(FreecellHistory.prototype, "length", {
+        get: function () {
+            return this.moves.length;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(FreecellHistory.prototype, "available", {
+        get: function () {
+            return this.moves.length - this.mark;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    FreecellHistory.prototype.clear = function () {
         this.moves.length = 0;
         this.mark = 0;
-        this.queue.notifyAll({ name: 'history-clear' });
     };
-    // skip forward
-    MoveHistory.prototype.next = function () {
-        this.mark += 2;
-        this.queue.notifyAll({ name: 'history-forward', moves: this.moves, mark: this.mark });
-    };
-    // skip backward
-    MoveHistory.prototype.back = function () {
-        this.mark -= 2;
-        this.queue.notifyAll({ name: 'history-backward', moves: this.moves, mark: this.mark });
-    };
-    // drop out old moves
-    MoveHistory.prototype.drop = function () {
-        this.moves.splice(this.mark);
-        this.queue.notifyAll({ name: 'history-drop', moves: this.moves, mark: this.mark });
-    };
-    MoveHistory.prototype.append = function (source, destination) {
-        this.moves.push(source);
-        this.moves.push(destination);
-        this.mark = this.moves.length;
-        this.queue.notifyAll({ name: 'history-append', moves: this.moves, mark: this.mark });
-    };
-    MoveHistory.prototype.move = function (source, destination) {
+    FreecellHistory.prototype.move = function (source, destination) {
         var moves = this.moves;
         var mark = this.mark;
-        if (moves.length - mark >= 2 && moves[mark] === source && moves[mark + 1] === destination) {
-            this.next();
+        if (moves.length > mark && moves[mark].source === source && moves[mark].destination === destination) {
+            this.mark += 1; // skip forward
         }
-        else if (mark >= 2 && moves[mark - 1] === source && moves[mark - 2] === destination) {
-            this.back();
+        else if (mark > 0 && moves[mark - 1].source === source && moves[mark - 1].destination === destination) {
+            this.mark -= 1; // skip backward
         }
         else {
             if (mark < moves.length) {
-                this.drop();
+                moves.splice(mark); // drop out old moves
             }
-            this.append(source, destination);
+            moves.push({ source: source, destination: destination });
+            this.mark = moves.length; // append
         }
     };
-    return MoveHistory;
+    FreecellHistory.prototype.toNumberArray = function () {
+        return this.moves.reduce(function (a, v) {
+            a.push(v.source);
+            a.push(v.destination);
+            return a;
+        }, []);
+    };
+    return FreecellHistory;
 }());
