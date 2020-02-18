@@ -434,7 +434,7 @@ var FreecellHistory = /** @class */ (function () {
         if (moves.length > mark && moves[mark].source === source && moves[mark].destination === destination) {
             this.mark += 1; // skip forward
         }
-        else if (mark > 0 && moves[mark - 1].source === source && moves[mark - 1].destination === destination) {
+        else if (mark > 0 && moves[mark - 1].source === destination && moves[mark - 1].destination === source) {
             this.mark -= 1; // skip backward
         }
         else {
