@@ -5,7 +5,7 @@ function createFreecellManager(pileNum, cellNum, baseNum) {
 
     const moves = [];
     const queue = new EventQueue();
-    const history = new MoveHistory(queue);
+    const history = new FreecellHistory();
 
     function getMoves() {
         moves.length = 0;
