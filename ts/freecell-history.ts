@@ -1,5 +1,10 @@
+interface Move {
+  source: number;
+  destination: number;
+} 
+
 class FreecellHistory {
-  moves: { source: number, destination: number }[] = [];
+  moves: Move[] = [];
 
   // Marks the current position
   mark: number = 0;
@@ -11,6 +16,10 @@ class FreecellHistory {
   get available() {
     return this.moves.length - this.mark;
   }
+
+  get current(): Move | null {
+    return this.mark > 0 ? this.moves[this.mark - 1] : null;
+  } 
 
   clear() {
     this.moves.length = 0;
