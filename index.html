@@ -107,8 +107,6 @@
         for (let i = moves.length; i - 1 > mark; i-=2) {
           freecell.moveCard(moves[i - 1], moves[i - 2]); // move back
         }
-      } else {
-        mark = moves.length;
       }
     }
     
@@ -117,14 +115,13 @@
       history.pushState(null, null, "?deal=" + deal);
     });
     freecell.addOnMoveListener(function (event) {
-      let mark = event.history.mark;
-      let moves = event.history.moves;
-      if (mark === moves.length) {
-        history.pushState(null, null, "?deal=" + deal + '&moves=' + MathUtils.byteArrayToString(moves));
-      } else {
-        history.pushState(null, null, "?deal=" + deal + '&moves=' + MathUtils.byteArrayToString(moves)
-                          + '&mark=' + mark);
+      let mark = event.history.mark * 2;
+      let moves = event.history.toNumberArray();
+      let url = '?deal=' + deal + '&moves=' + MathUtils.byteArrayToString(moves);
+      if (mark < moves.length) {
+        url += '&mark=' + mark;
       }
+      history.pushState(null, null, url);
     });
   </script>
   <script src="js/tea.min.js"></script>
