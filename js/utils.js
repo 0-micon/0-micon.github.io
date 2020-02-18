@@ -424,6 +424,13 @@ var FreecellHistory = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(FreecellHistory.prototype, "current", {
+        get: function () {
+            return this.mark > 0 ? this.moves[this.mark - 1] : null;
+        },
+        enumerable: true,
+        configurable: true
+    });
     FreecellHistory.prototype.clear = function () {
         this.moves.length = 0;
         this.mark = 0;
