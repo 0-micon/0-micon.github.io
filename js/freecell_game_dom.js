@@ -637,6 +637,11 @@ const createFreecellGame = (function () {
             if (game.emptyPileCount() === game.PILE_NUM && game.emptyCellCount() === game.CELL_NUM) {
                 SoundManager.playVictory();
             }
+            
+            const current = game.history.current;
+            if (current && !current.element) {
+                // TODO: create current element.
+            }
 
             history.moveCard(event.card, event.source, event.destination);
             updateButtons();
